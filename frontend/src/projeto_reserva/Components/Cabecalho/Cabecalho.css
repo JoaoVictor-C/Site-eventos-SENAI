@@ -1,0 +1,42 @@
+.nav-link {
+    color: #000;
+    font-size: 18px;
+}
+
+.menu-items {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #fff;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s ease-in-out;
+}
+
+.menu-items.active {
+    transform: translateX(0);
+}
+
+
+.menu-items > i {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .header-img {
+        width: 100% !important;
+    }
+
+    .menu-items {
+        width: 100%;
+    }
+}

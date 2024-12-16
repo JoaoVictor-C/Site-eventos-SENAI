@@ -1,0 +1,37 @@
+.cam {
+  width: 300px;
+  height: 300px;
+  background-color: #eeeeee;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  margin-bottom: 100px;
+  margin-top: 40px;
+}
+
+.ab {
+  padding: 20px;
+}
+
+.dg {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: -40px;
+}
+
+.btn-verde {
+  background-color: #4CAF50; /* Cor de fundo verde */
+  color: white; /* Cor do texto branco */
+  padding: 60px 70px; /* Espaçamento interno */
+  border: none; /* Remove a borda */
+  border-radius: 5px; /* Cantos arredondados */
+  cursor: pointer; /* Altera o cursor para indicar que é clicável */
+  transition: background-color 0.3s; /* Efeito de transição suave na mudança de cor de fundo */
+}
+
+
+.btn-verde:hover {
+  background-color: #45a049; /* Cor de fundo verde mais escura no hover */
+}

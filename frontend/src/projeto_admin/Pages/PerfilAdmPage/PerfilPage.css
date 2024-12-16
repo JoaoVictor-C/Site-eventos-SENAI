@@ -1,0 +1,12 @@
+/* Remove all previous custom CSS styles related to layout */
+/* Keep only specific styles that aren't handled by Bootstrap */
+
+.perfil h1 {
+    text-align: center; /* Center the h1 */
+  }
+  
+  .nome {
+    font-size: 20px;
+    margin-top: 20px; /* Reduce top margin for consistency */
+  }
+  

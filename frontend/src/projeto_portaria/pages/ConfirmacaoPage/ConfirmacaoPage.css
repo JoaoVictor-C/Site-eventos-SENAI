@@ -1,0 +1,62 @@
+
+.bloco_vd {
+  background-color: #000000;
+  width: 200px;
+  height: 250px;
+  margin-top: 70px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+}
+
+.botaov {
+  width: 150px;
+  height: 40px;
+  background-color: #eeeeee;
+  border-color: #eeeeee;
+  border-radius: 20px;
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+
+.bloco_czc {
+  display: flex;
+  justify-content: center;
+  background-color: #bfbfbf;
+  width: 1000px;
+  height: auto;
+  border-radius: 20px;
+  padding: 20px;
+  align-self: center;
+
+  
+}
+
+.vl {
+  font-size: 20px;
+  padding-top: 15px;
+}
+
+.va {
+  font-size: 35px;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  
+}
+/*
+@media (max-width: 450px) {
+  .bloco_vd {
+    width: 200px;
+    height: 250px;
+    margin-top: 70px;
+    margin-bottom: 50px;
+  }
+}
+
+@media (max-width: 450px) {
+  .bloco_czc {
+    margin-left: 20px;
+    width: 300px;
+  }
+}
+*/

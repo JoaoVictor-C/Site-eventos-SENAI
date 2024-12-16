@@ -1,0 +1,66 @@
+/* Ingresso.css */
+.divCard {
+    width: 207px; /* largura do card */
+    margin: 10px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid black;
+}
+.divCard p {
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+
+@media (max-width: 767px) {
+    .divCard {
+        width: 160px;
+    }
+}
+
+h4{
+    font-size: 12pt;
+    margin: 0px;
+    padding: 0px;
+}
+
+.status-0 {
+    color: rgb(214, 214, 25); /* Amarelo para Pendente */
+}
+
+.status-1 {
+    color: rgb(0, 211, 0); /* Verde para Validado */
+}
+
+.status-2 {
+    color: rgb(109, 109, 109); /* Cinza para Utilizado */
+}
+
+.divCard hr {
+    border: 0;
+    border-top: 1px solid black;
+    margin: 10px 0;
+}
+
+.divCard .imagem {
+    text-align: center;
+}
+
+.divCard .imagem a {
+    display: inline-block;
+}
+
+.divCard .imagem a img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+span{
+    font-weight: bolder;
+}
+#descricaoEvento{
+    font-size: 18pt;
+}

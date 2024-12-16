@@ -1,0 +1,16 @@
+.campo-login {
+  margin: 30px;
+}
+
+input {
+  width: 320px;
+  height: 40px;
+  border-radius: 20px;
+  border: 0px;
+}
+/*
+@media (max-width: 450px) {
+  .campo-input {
+    width: 200px;
+  }
+}

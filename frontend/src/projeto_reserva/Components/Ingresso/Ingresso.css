@@ -1,0 +1,16 @@
+#descricaoEvento {
+    font-size: 1.5rem; /* 18pt */
+}
+
+.status-Pendente {
+    color: rgb(214, 214, 25); /* Amarelo para Pendente */
+}
+
+.status-Validado {
+    color: rgb(0, 211, 0); /* Verde para Validado */
+}
+
+.status-Utilizado {
+    color: rgb(109, 109, 109); /* Cinza para Utilizado */
+}
+

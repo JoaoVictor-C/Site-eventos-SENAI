@@ -1,0 +1,76 @@
+.tudo_login {
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    margin: 50px;    
+    flex-direction: column;
+}
+
+.login_inicio {
+    background-color: #f8f9fa;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    margin: 10px;
+
+}
+
+.login_titulo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;    
+}
+
+.login_titulo h1 {
+    font-size: 24px;
+    margin-bottom: 0px;
+}
+
+.login_titulo p {    
+    margin-top: 0px;
+    font-size: 14px;
+}
+
+.form-login {
+    margin-top: 20px;
+}
+
+.botao_login {
+
+    margin: 30px auto;
+}
+
+.erro-msg {
+    color: red;
+    margin-top: 10px;
+}
+
+.registro-link-dv {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    margin: 10px;
+
+}
+
+.registro-link {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.registro-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.registro-link a:hover {
+    text-decoration: underline;
+}
+

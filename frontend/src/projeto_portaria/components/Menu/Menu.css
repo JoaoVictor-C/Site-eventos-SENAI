@@ -1,0 +1,10 @@
+.menu a
+{
+    width: 350px;
+    height: 40px;
+    background-color: #90F477;
+    border-color: #90F477;
+    border-radius: 20px;
+    margin-top: 20px;
+    font-size: 15px;
+}

@@ -1,0 +1,16 @@
+.botaoVerde {
+    padding: 15px 35px;
+    border-radius: 15px;
+    background-color: #3fb344;
+    color: #ffffffbe;
+    border: none;
+    box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.177);
+}
+
+.botaoVerde:hover {
+    background-color: #45a049;
+}
+
+.btn-outline-secondary:active {
+    opacity: 0.8;
+}

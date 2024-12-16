@@ -1,0 +1,17 @@
+.footer-link {
+    color: #000;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.footer-link > a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer {
+    width: 100%;    
+}
+.row{
+    margin-left: 20px;
+}

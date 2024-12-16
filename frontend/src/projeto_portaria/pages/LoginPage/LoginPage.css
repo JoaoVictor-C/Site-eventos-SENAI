@@ -1,0 +1,30 @@
+.body {
+  display: flex;
+  flex-direction: column;
+}
+
+
+h1 {
+  color: #333; /* Cor do título */
+  text-align: center;
+}
+
+.text-success {
+  color: #28a745; /* Cor verde para mensagens de sucesso */
+}
+
+.text-center {
+  text-align: center;
+}
+
+.footer {
+  margin-top: auto; /* Mantém o rodapé no final da página */
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}
+
+.page-container {
+  max-height: 100%;
+}

@@ -1,0 +1,47 @@
+.tela {
+    display: flex;
+}
+
+.direita_suporte {
+    width: 50%;
+    align-items: right;
+}
+
+.img_zap {
+    height: 30px;
+}
+
+.esquerda_suporte {
+    width: 50%;
+    margin-top: 55px;
+}
+
+.text_whats>a {
+    font-size: 15pt;
+    color: white;
+    text-decoration: none;
+    font-weight: bolder;
+}
+
+@media screen and (max-width: 932px) {
+    .tela {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .direita_suporte,
+    .esquerda_suporte {
+        width: 100%;
+    }
+
+    .ImageSuport {
+        width: 100%;
+    }
+
+    .text_whats>a {
+        font-size: 13pt;
+        color: white;
+        text-decoration: none;
+        font-weight: bolder;
+    }
+}
