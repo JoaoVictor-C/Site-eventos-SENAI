@@ -61,8 +61,8 @@ const SuportePage = () => {
                     </div>
                     <div className='col-lg-6 text-center'>
                         <img className='img-fluid' src={imgSuport} alt='Suporte' />
-                        <a className='btn btn-info btn-lg text-white text-decoration-none px-4 mb-5'
-                            href="https://wa.me/+55149970558355" target="_blank" rel="noreferrer">
+                        <a className='btn bg-primary text-white text-decoration-none px-4 mb-5'
+                            href="https://wa.me/+5514997058355" target="_blank" rel="noreferrer">
                             <div className='d-flex align-items-center justify-content-center' style={{ fontSize: '1.5rem', gap: '10px', fontWeight: 'bold' }}>
                                 FALE CONOSCO
                                 <img className='img-fluid' src={imgBanner} alt='WhatsApp Logo' style={{ height: '30px' }} />
@@ -84,7 +84,7 @@ const SuportePage = () => {
                                     {itemFrase}</p>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-secondary fs-5" data-bs-dismiss="modal">Fechar</button>
                             </div>
                         </div>
                     </div>

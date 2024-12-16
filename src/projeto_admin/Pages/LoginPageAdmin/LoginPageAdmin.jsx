@@ -6,6 +6,7 @@ import { notifyError } from '../../components/Utils/msgToast.jsx';
 import Cabecalho from '../../components/Menu/index.jsx';
 import Rodape from '../../components/Rodape/index.jsx';
 import { isAuthenticated } from '../../components/Utils/auth.jsx';
+import constantes from "../../../componentes/Constantes.jsx";
 
 
 const LoginPageAdmin = () => {  
@@ -31,9 +32,9 @@ const LoginPageAdmin = () => {
 
     var url = '';
     if (inDevelopment === 'true') {
-        url = 'http://localhost:5236/api/';
+        url = constantes.localApiUrl;
     } else {
-        url = 'https://www.senailp.com.br/eventos-api/api/';
+        url = constantes.apiUrl;
     }
     const getLogin = async () => {
         
@@ -62,8 +63,7 @@ const LoginPageAdmin = () => {
             navigate('/admin/inicioadmin');
 
         } catch (error) {
-            notifyError("Usuário ou senha inválidos " + error)
-            console.log('Usuário ou senha inválidos ' + error)
+            notifyError("Usuário ou senha inválidos ")
         }
     };
 
@@ -79,7 +79,6 @@ const LoginPageAdmin = () => {
     const onEnviar = () => {
         if (email === '' || senha === '') {
             notifyError("Preencha todos os campos!")
-            console.log('Preencha todos os campos')   
         } else {            
             getLogin()
         }        

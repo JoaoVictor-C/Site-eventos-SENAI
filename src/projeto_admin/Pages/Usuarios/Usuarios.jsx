@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Rodape from "../../components/Rodape/index.jsx";
 import Menu from "../../components/Menu/index.jsx";
+import constantes from "../../../componentes/Constantes.jsx";
 
 function Usuarios() {
     const [errorMessage, setErrorMessage] = useState('');
@@ -26,9 +27,9 @@ function Usuarios() {
     const inDevelopment = localStorage.getItem('inDevelopment');
     var url = '';
     if (inDevelopment === 'true') {
-        url = 'http://localhost:5236/api/';
+        url = constantes.localApiUrl;
     } else {
-        url = 'https://www.senailp.com.br/eventos-api/api/';
+        url = constantes.apiUrl;
     }
 
     useEffect(() => {
@@ -93,9 +94,9 @@ function Usuarios() {
             <tr key={item.idUsuario}>
                 <td>{item.nomeCompleto}</td>
                 <td>{item.email}</td>
-                <td onMouseEnter={() => togglePasswordVisibility(item.idUsuario)} onMouseLeave={() => setShowPassword((prevShowPassword) => ({ ...prevShowPassword, [item.idUsuario]: false }))} onClick={() => togglePasswordVisibility(item.idUsuario)}>
+                {/* <td onMouseEnter={() => togglePasswordVisibility(item.idUsuario)} onMouseLeave={() => setShowPassword((prevShowPassword) => ({ ...prevShowPassword, [item.idUsuario]: false }))} onClick={() => togglePasswordVisibility(item.idUsuario)}>
                     {showPassword[item.idUsuario] ? item.senha : '●●●●●●●●'}
-                </td>
+                </td> */}                
                 <td>{item.telefone}</td>
                 <td>{item.perfil}</td>
                 <td>{item.ativo ? "Ativo" : "Inativo"}</td>
@@ -106,7 +107,7 @@ function Usuarios() {
         ));
     };
 
-    const tableFields = ["Nome Completo", "Email", "Senha", "Telefone", "Perfil", "Ativo", ""];
+    const tableFields = ["Nome Completo", "Email", "Telefone", "Perfil", "Ativo", ""];
 
     useEffect(() => {
         if (errorMessage) {

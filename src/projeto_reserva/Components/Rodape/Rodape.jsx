@@ -5,13 +5,16 @@ import { Link } from 'react-router-dom';
 
 function Rodape() {
     return (
-        <footer className="footer-container text-white py-5 mt-5 px-5" style={{ backgroundColor: "#4C576C" }}>
+        <footer className="footer-container text-white py-5 mt-5" style={{ backgroundColor: "#4C576C" }}>
             <div className="container">
-                <div className="row align-items-start">
-                    <div className="col-12 col-md-4 w-100">
+                <div className="align-items-">
+                    <div className="col-12">
+                        
                         <img className="img-fluid senai" src={senaiRodape} alt="Logo" />
+
                         <hr className="bg-white" />
-                        <div className="col-12 col-md-8">
+                        
+                        <div className="col-12">
                             <div className="d-flex flex-column flex-md-row align-items-center mt-3">
                                 <Link Link to="/" className="btn-link btn text-white fs-5" style={{ textDecoration: 'none' }}>Eventos</Link>
                                 <Link to="/meusIngressos" className="btn-link btn text-white fs-5" style={{ textDecoration: 'none' }}>Meus ingressos</Link>

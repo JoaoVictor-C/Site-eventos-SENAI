@@ -15,7 +15,13 @@ export const CancelButton = ({ id, cancel, status, pedido }) => {
     };
 
     useEffect(() => {
-        const modal = new Modal(document.getElementById(`confirmationModalCancel-${id}`));
+        const modal = new Modal(
+            document.getElementById(`confirmationModalCancel-${id}`),
+            {
+                keyboard: false,
+                backdrop: 'static'
+            }
+        )
         if (showConfirmationModal) {
             modal.show();
         } else {

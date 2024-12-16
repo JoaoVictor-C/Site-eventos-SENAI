@@ -54,8 +54,8 @@ export const ModalEventos = ({ handleSalvar, handleDeletar, fetchImagem }) => {
                                 <input type="number" className="form-control" id="totalIngressos" name="totalIngressos" disabled/>
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="ativo" className="form-label">Imagem</label>
-                                <input type="file" className="form-control" id="imagem" name="imagem" onChange={handleImagem}/>
+                                <label htmlFor="ativo" className="form-label" >Imagem</label>
+                                <input type="file" className="form-control" accept="image/*" id="imagem" name="imagem"  onClick={handleImagem}/>
                                 <img src={imagem} alt="Imagem do evento" className="img-fluid" id="imagem-preview"/>
                             </div>
                             <div className="mb-3 form-check">
@@ -64,7 +64,7 @@ export const ModalEventos = ({ handleSalvar, handleDeletar, fetchImagem }) => {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                <button type="submit" className="btn btn-primary">Salvar</button>
+                                <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Salvar</button>
                                 <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={handleDeletar}>Deletar</button>
                             </div>
                         </form>

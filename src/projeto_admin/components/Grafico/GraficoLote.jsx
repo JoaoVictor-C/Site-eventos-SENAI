@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { useParams } from "react-router-dom";
+import constantes from "../../../componentes/Constantes.jsx";
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
@@ -11,9 +12,9 @@ const Grafico = () => {
     const inDevelopment = localStorage.getItem('inDevelopment');
 	var url = '';
     if (inDevelopment === 'true') {
-        url = 'http://localhost:5236/api/';
+        url = constantes.localApiUrl;
     } else {
-        url = 'https://www.senailp.com.br/eventos-api/api/';
+        url = constantes.apiUrl;
     }
 
     useEffect(() => {
@@ -22,8 +23,12 @@ const Grafico = () => {
 
     const fetchLotes = async () => {
         try {
+            //const response = await fetch(url + 'Ingresso/quantidadeByTipoByEvento/' + idEvento);
+            //const data = await response.json();
             const response = await fetch(`${url}Lote/evento/${idEvento}`);
             const data = await response.json();
+            console.log(data)
+
             setLotes(data);
         } catch (error) {
             console.error('Erro ao buscar lotes:', error);
@@ -46,7 +51,7 @@ const Grafico = () => {
                     <option value="">Selecione um lote</option>
                     {lotes.map(lote => (
                         <option key={lote.idLote} value={lote.idLote}>
-                            {`Lote ${lote.nome}`}
+                            {`${lote.nome}`}
                         </option>
                     ))}
                 </select>
@@ -86,7 +91,7 @@ const Grafico = () => {
                 <div className="mt-3">
                     <p>{`Vendas: ${selectedLote.vendas}`}</p>
                     <p>{`Ingressos disponíveis: ${selectedLote.saldo}`}</p>
-                    <p>{`Receita total: R$ ${selectedLote.profit.toFixed(2)}`}</p>
+                    <p>{`Quantidade total de ingressos: ${selectedLote.quantidadeTotal}`}</p>
                 </div>
             )}
         </div>

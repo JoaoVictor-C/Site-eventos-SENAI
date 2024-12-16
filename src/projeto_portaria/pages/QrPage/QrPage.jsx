@@ -4,11 +4,20 @@ import Cabecalho from "../../components/Cabecalho/Cabecalho";
 import { isAuthenticated } from "../../components/Utils/auth.jsx";
 import { useNavigate } from "react-router-dom";
 import Rodape from "../../components/Rodape/Rodape.jsx";
+import constantes from '../../../componentes/Constantes.jsx'
 
 const QrPage = () => {
   const navigate = useNavigate();
   const [errorApi, setErroApi] = useState(false);
   const [msgApi, setmsgApi] = useState("");
+
+  const inDevelopment = localStorage.getItem('inDevelopment');
+  let url = '';
+  if (inDevelopment === 'true') {
+      url = constantes.localApiUrl;
+  } else {
+      url = constantes.apiUrl;
+  }
 
   const verificarAutenticacao = () => {
     if (!isAuthenticated()) {
@@ -69,7 +78,7 @@ const QrPage = () => {
   const verificaQRCODE = async (qrCodeLido) => {
     try {
       const response = await fetch(
-        `https://www.senailp.com.br/eventos-api/api/Ingresso/Verifica/${qrCodeLido}`,
+        url + `Ingresso/Verifica/${qrCodeLido}`,
         {
           method: "POST",
           headers: {

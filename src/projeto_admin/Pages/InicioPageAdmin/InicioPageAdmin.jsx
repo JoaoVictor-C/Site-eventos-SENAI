@@ -4,6 +4,7 @@ import Rodape from '../../components/Rodape/index.jsx';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import constantes from "../../../componentes/Constantes.jsx";
 
 
 const InicioPageAdmin = () => {
@@ -13,9 +14,9 @@ const InicioPageAdmin = () => {
     const [error, setError] = useState(null);
     var url = '';
     if (inDevelopment === 'true') {
-        url = 'http://localhost:5236/api/';
+        url = constantes.localApiUrl;
     } else {
-        url = 'https://www.senailp.com.br/eventos-api/api/';
+        url = constantes.apiUrl;
     }
 
     
@@ -51,7 +52,7 @@ const InicioPageAdmin = () => {
             setEventos(data);
         } catch (error) {
             setError(error);
-            notifyError("Erro ao carregar eventos da API " + error);
+            notifyError("Erro ao carregar eventos da API ");
         } finally {
             setLoading(false);
         }

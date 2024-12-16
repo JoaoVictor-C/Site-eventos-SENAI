@@ -28,10 +28,10 @@ const Cabecalho = () => {
         <>
             <div className="container-fluid" style={{ borderTop: '14px solid red', borderBottom: '14px solid red', width: '100%', backgroundColor: "#F0F0F0" }}>
                 <div className="p-3 pt-5 pb-5 row d-flex justify-content-between align-items-center">
-                    <div className="d-flex align-items-center justify-content-center col-6">
+                    <div className="d-flex align-items-center justify-content-center col-4">
                         <img src={senai_vermelho} alt="Logo" className="img-fluid" onClick={() => navigate('/')} style={{ cursor: 'pointer' }} />
                     </div>
-                    <div className="col-3 d-flex align-items-center justify-content-center">
+                    <div className="col-6 d-flex align-items-center justify-content-center">
                         <div className="d-lg-none d-flex align-items-center">
                             <button className="hamburger-icon" onClick={toggleMenu} style={{ fontSize: "30px", border: 'none', backgroundColor: 'transparent' }}>
                                 ☰
@@ -71,7 +71,7 @@ const Cabecalho = () => {
                             </nav>
                         </div>
                     </div>
-                    <div className="col-3 d-flex align-items-center justify-content-center">
+                    <div className="col-2 d-flex align-items-center justify-content-center">
                         <Link to="/perfil">
                             <img src={perfil_pequeno} alt="Perfil" />
                         </Link>

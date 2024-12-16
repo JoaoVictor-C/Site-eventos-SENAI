@@ -5,6 +5,7 @@ import Card from '../../Components/Card/Card.jsx';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './InicioPage.css';
+import constantes from '../../../componentes/Constantes.jsx'
 
 const InicioPageReserva = () => {
     const [eventos, setEventos] = useState([]);
@@ -12,7 +13,12 @@ const InicioPageReserva = () => {
     const [error, setError] = useState(null);
 
     const inDevelopment = localStorage.getItem('inDevelopment');
-    const url = inDevelopment === 'true' ? 'http://localhost:5236/api/' : 'https://www.senailp.com.br/eventos-api/api/';
+    let url = '';
+    if (inDevelopment === 'true') {
+        url = constantes.localApiUrl;
+    } else {
+        url = constantes.apiUrl;
+    }
 
     const notifyError = (msg) => 
         toast.error(msg, {
@@ -48,7 +54,7 @@ const InicioPageReserva = () => {
             setEventos(data);
         } catch (error) {
             setError(error);
-            notifyError("Erro ao carregar eventos da API " + error);
+            notifyError("Erro ao carregar eventos da API ");
         } finally {
             setLoading(false);
         }
@@ -72,7 +78,7 @@ const InicioPageReserva = () => {
                 ) : error ? (
                     <p className='text-center text-danger'>Erro ao carregar eventos. Por favor, tente novamente mais tarde.</p>
                 ) : eventos.length > 0 ? (
-                    <div className='row'>
+                    <div className='col-12'>
                         {eventos.map((item, index) => (
                             <div key={index} className='col-lg-4 col-md-6 mb-4'>
                                 <Card dados={item} />

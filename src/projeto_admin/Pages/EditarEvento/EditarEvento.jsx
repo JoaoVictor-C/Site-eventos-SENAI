@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from '../../components/Utils/auth.jsx';
 import 'bootstrap'
 import axios from 'axios'
+import constantes from "../../../componentes/Constantes.jsx";
 
 const EditarEvento = () => {
     const [eventos, setEventos] = useState([]);
@@ -26,9 +27,9 @@ const EditarEvento = () => {
     const inDevelopment = localStorage.getItem('inDevelopment');
     var url = '';
     if (inDevelopment === 'true') {
-        url = 'http://localhost:5236/api/';
+        url = constantes.localApiUrl;
     } else {
-        url = 'https://www.senailp.com.br/eventos-api/api/';
+        url = constantes.apiUrl;
     }
     const verificarAutenticacao = () => {
     if (!isAuthenticated()) {

@@ -5,6 +5,8 @@ import Cabecalho from '../../Components/Cabecalho/Cabecalho';
 import Rodape from '../../Components/Rodape/Rodape';
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from '../../Components/Utils/auth.jsx';
+import pix from '../../../assets/Images/pix.png'
+import constantes from "../../../componentes/Constantes.jsx";
 
 function MeusIngressos() {
     const navigate = useNavigate();
@@ -15,8 +17,14 @@ function MeusIngressos() {
     const [descricoes, setDescricoes] = useState({}); // Estado para armazenar descrições dos eventos
 
     const inDevelopment = localStorage.getItem('inDevelopment');
-    const url = inDevelopment === 'true' ? 'http://localhost:5236/api/' : 'https://www.senailp.com.br/eventos-api/api/';
 
+    var url = '';
+    if (inDevelopment === 'true') {
+        url = constantes.localApiUrl;
+    } else {
+        url = constantes.apiUrl;
+    }
+    
     const verificarAutenticacao = () => {
         if (!isAuthenticated()) {
             console.log('Usuário não autenticado');
@@ -92,9 +100,11 @@ function MeusIngressos() {
                 {filteredIngressos.length === 0 ? (
                     <p className='text-warning'>Nenhum ingresso disponível</p>
                 ) : (
-                    <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4'>
+                    <div className='d-flex flex-wrap justify-content-start'>
                         {filteredIngressos.map((item, index) => (
-                            <Ingresso obj={item} key={index} onUpdateDescricao={atualizarDescricoes} descricao={descricoes[item.idIngresso]} />
+                            <div className='col' key={index}>
+                                <Ingresso obj={item} key={index} onUpdateDescricao={atualizarDescricoes} descricao={descricoes[item.idIngresso]} />
+                            </div>
                         ))}
                     </div>
                 )}

@@ -1,14 +1,14 @@
 import propTypes from 'prop-types';
 import {useState} from "react";
 import InputMask from 'react-input-mask';
-
+import constantes from "../../../componentes/Constantes.jsx";
 export const ModalUsuarios = ({setModalData, usuarios, setUsuarios, setSuccessMessage, setErrorMessage}) => {
     const inDevelopment = localStorage.getItem('inDevelopment');
     var url = '';
     if (inDevelopment === 'true') {
-        url = 'http://localhost:5236/api/';
+        url = constantes.localApiUrl;
     } else {
-        url = 'https://www.senailp.com.br/eventos-api/api/';
+        url = constantes.apiUrl;
     }
     const [showPassword, setShowPassword] = useState(false);
 

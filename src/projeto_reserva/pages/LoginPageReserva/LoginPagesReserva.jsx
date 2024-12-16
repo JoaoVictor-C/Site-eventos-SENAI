@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cabecalho from '../../Components/Cabecalho/Cabecalho.jsx';
 import Rodape from '../../Components/Rodape/Rodape.jsx';
-
+import constantes from "../../../componentes/Constantes.jsx";
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -15,9 +15,9 @@ const LoginPage = () => {
     const inDevelopment = localStorage.getItem('inDevelopment');
     var url = '';
     if (inDevelopment === 'true') {
-        url = 'http://localhost:5236/api/';
+        url = constantes.localApiUrl;
     } else {
-        url = 'https://www.senailp.com.br/eventos-api/api/';
+        url = constantes.apiUrl;
     }
     const notifyError = (msg) => 
         toast.error(msg, {
@@ -93,7 +93,7 @@ const LoginPage = () => {
         <>
             <Cabecalho />
             <div className='container mt-5 mb-5 shadow-lg p-5 bg-body rounded' style={{ maxWidth: '400px' }}>
-                <div className='row justify-content-center'>
+                <div className='justify-content-center'>
                     <div className='col'>
                         <div className='text-center'>
                             <h1 className='fs-1'>Login</h1>

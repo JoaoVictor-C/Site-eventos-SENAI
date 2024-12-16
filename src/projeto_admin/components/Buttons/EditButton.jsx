@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 export const EditButton = ({data, setModalData}) => {
     function changeModalData() {
-        console.log(data);
+        //console.log(data);
         setModalData(data);
     }
 

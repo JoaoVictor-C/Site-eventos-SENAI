@@ -30,7 +30,7 @@ function Menu() {
                 <div className="d-flex align-items-center justify-content-center col-4">
                     <img src={senai_vermelho} alt="Logo" className="img-fluid" onClick={() => navigate('/admin/')} style={{ cursor: 'pointer' }} />
                 </div>
-                <div className="col-4 d-flex align-items-center justify-content-center">
+                <div className="col-6 d-flex align-items-center justify-content-center">
                     <div className="d-lg-none d-flex align-items-center">
                         <button className="hamburger-icon" onClick={toggleMenu} style={{ fontSize: "30px", border: 'none', backgroundColor: 'transparent' }}>
                             ☰
@@ -82,7 +82,7 @@ function Menu() {
                         </nav>
                     </div>
                 </div>
-                <div className="col-4 d-flex align-items-center justify-content-center">
+                <div className="col-2 d-flex align-items-center justify-content-center">
                     <Link to="/admin/perfil">
                         <img src={perfil_pequeno} alt="Perfil" />
                     </Link>

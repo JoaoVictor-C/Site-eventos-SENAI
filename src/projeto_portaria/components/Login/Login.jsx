@@ -41,8 +41,7 @@ const Login = ({ onLogin }) => {
       navigate('/portaria/validacao');
 
     } catch (error) {
-      notifyError("Usuário ou senha inválidos " + error);
-      console.log('Usuário ou senha inválidos ' + error);
+      notifyError("Usuário ou senha inválidos ");
     }
   };
 

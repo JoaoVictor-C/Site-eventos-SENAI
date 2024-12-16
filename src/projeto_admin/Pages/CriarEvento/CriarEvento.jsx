@@ -7,7 +7,8 @@ import Rodape from "../../components/Rodape/index.jsx";
 import Menu from "../../components/Menu/index.jsx";
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from '../../components/Utils/auth.jsx';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap'
+import constantes from "../../../componentes/Constantes.jsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CriarEvento = () => {
@@ -20,9 +21,9 @@ const CriarEvento = () => {
     const inDevelopment = localStorage.getItem('inDevelopment');
     var url = '';
     if (inDevelopment === 'true') {
-        url = 'http://localhost:5236/api/';
+        url = constantes.localApiUrl;
     } else {
-        url = 'https://www.senailp.com.br/eventos-api/api/';
+        url = constantes.apiUrl;
     }
     const navigate = useNavigate();
 
