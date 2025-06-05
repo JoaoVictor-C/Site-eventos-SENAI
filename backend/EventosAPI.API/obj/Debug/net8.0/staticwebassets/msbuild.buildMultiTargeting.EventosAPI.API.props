@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/EventosAPI.API.props" />
+</Project>

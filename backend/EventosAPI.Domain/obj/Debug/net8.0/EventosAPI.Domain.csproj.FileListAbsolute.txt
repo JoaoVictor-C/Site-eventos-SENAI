@@ -1,0 +1,12 @@
+/workspaces/Site-eventos-SENAI/backend/EventosAPI.Domain/bin/Debug/net8.0/EventosAPI.Domain.deps.json
+/workspaces/Site-eventos-SENAI/backend/EventosAPI.Domain/bin/Debug/net8.0/EventosAPI.Domain.dll
+/workspaces/Site-eventos-SENAI/backend/EventosAPI.Domain/bin/Debug/net8.0/EventosAPI.Domain.pdb
+/workspaces/Site-eventos-SENAI/backend/EventosAPI.Domain/obj/Debug/net8.0/EventosAPI.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/Site-eventos-SENAI/backend/EventosAPI.Domain/obj/Debug/net8.0/EventosAPI.Domain.AssemblyInfoInputs.cache
+/workspaces/Site-eventos-SENAI/backend/EventosAPI.Domain/obj/Debug/net8.0/EventosAPI.Domain.AssemblyInfo.cs
+/workspaces/Site-eventos-SENAI/backend/EventosAPI.Domain/obj/Debug/net8.0/EventosAPI.Domain.csproj.CoreCompileInputs.cache
+/workspaces/Site-eventos-SENAI/backend/EventosAPI.Domain/obj/Debug/net8.0/EventosAPI.Domain.sourcelink.json
+/workspaces/Site-eventos-SENAI/backend/EventosAPI.Domain/obj/Debug/net8.0/EventosAPI.Domain.dll
+/workspaces/Site-eventos-SENAI/backend/EventosAPI.Domain/obj/Debug/net8.0/refint/EventosAPI.Domain.dll
+/workspaces/Site-eventos-SENAI/backend/EventosAPI.Domain/obj/Debug/net8.0/EventosAPI.Domain.pdb
+/workspaces/Site-eventos-SENAI/backend/EventosAPI.Domain/obj/Debug/net8.0/ref/EventosAPI.Domain.dll
