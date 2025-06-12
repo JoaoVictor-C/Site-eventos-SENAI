@@ -21,8 +21,8 @@ namespace EventosAPI.Application.Services
         private readonly ITokenService _tokenService;
 
         public UserService(
-            IUserRepository userRepository, 
-            IMapper mapper, 
+            IUserRepository userRepository,
+            IMapper mapper,
             IConfiguration configuration,
             IPasswordHashService passwordHashService,
             ITokenService tokenService)
@@ -31,6 +31,7 @@ namespace EventosAPI.Application.Services
             _mapper = mapper;
             _configuration = configuration;
             _passwordHashService = passwordHashService;
+            _tokenService = tokenService;
         }
 
         public async Task<UserDto> GetByIdAsync(Guid id)
@@ -87,6 +88,9 @@ namespace EventosAPI.Application.Services
 
             var accessToken = _tokenService.GenerateAccessToken(user);
             var refreshToken = await _tokenService.CreateRefreshTokenAsync(user);
+
+            Console.WriteLine(accessToken);
+            Console.WriteLine(refreshToken);
 
             return new TokenResponseDto
             {
