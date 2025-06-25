@@ -1,19 +1,33 @@
-version: '3.8'
-
 services:
-  api:
+  backend:
     build:
-      context: .
+      context: ./Backend
       dockerfile: Dockerfile
+      target: final
     ports:
-      - "5000:80"
-      - "5001:443"
+      - "5027:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80;https://+:443
+      - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Server=db;Database=eventos_db;User=root;Password=root;
+      - DOTNET_WATCH_RESTART_ON_RUDE_EDIT=true
+    volumes:
+      - ~/.nuget/packages:/root/.nuget/packages:ro
+      - cert_data:/app/cert
     depends_on:
       - db
+    networks:
+      - eventos_network
+    entrypoint: ["dotnet", "EventosAPI.API.dll"]
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
     networks:
       - eventos_network
 
@@ -42,6 +56,7 @@ services:
 
 volumes:
   mysql_data:
+  cert_data:
 
 networks:
   eventos_network:

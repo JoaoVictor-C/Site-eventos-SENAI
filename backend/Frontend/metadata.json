@@ -1,0 +1,6 @@
+{
+  "name": "Eventos SENAI",
+  "description": "Plataforma de gerenciamento de eventos do SENAI. Permite aos usuários visualizar eventos, reservar ingressos e gerenciar seus ingressos com códigos QR.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
