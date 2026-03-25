@@ -24,30 +24,36 @@ API RESTful para gerenciamento de eventos e ingressos, desenvolvida com ASP.NET 
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/eventos-api.git
-cd eventos-api
+git clone https://github.com/JoaoVictor-C/Site-eventos-SENAI.git
+cd Site-eventos-SENAI
 ```
 
-2. Configure as variáveis de ambiente:
-   - Copie o arquivo `appsettings.Development.json` para criar seu próprio arquivo de configuração local
-   - Ajuste as configurações conforme necessário (conexão com banco de dados, chaves JWT, etc.)
-
-3. Execute com Docker:
+2. Execute com Docker (recomendado para desenvolvimento):
+   - Copie `.env.example` (na raiz do repositório) para `.env` e preencha os valores:
+     - `MYSQL_ROOT_PASSWORD`
+     - `JWT_KEY`
 ```bash
 docker-compose up -d
 ```
 
-Ou execute localmente:
+3. Execute localmente (sem Docker):
+   - Configure segredos locais (User Secrets) no projeto `Backend/EventosAPI.API`:
 ```bash
+cd Backend/EventosAPI.API
+dotnet user-secrets init
+dotnet user-secrets set "Jwt:Key" "coloque-uma-chave-longa-e-aleatoria"
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=localhost;Database=eventos_db;User=root;Password=SUA_SENHA;"
+cd ../..
+
 dotnet restore
-dotnet run --project EventosAPI.API
+dotnet run --project Backend/EventosAPI.API
 ```
 
 ## 📖 Documentação da API
 
 A documentação da API está disponível através do Swagger UI em:
-- Desenvolvimento: https://localhost:5001/swagger
-- Produção: https://seu-dominio/swagger
+- Docker: http://localhost:5027/swagger
+- Execução local (Kestrel): https://localhost:5001/swagger
 
 ## 🛠️ Estrutura do Projeto
 
