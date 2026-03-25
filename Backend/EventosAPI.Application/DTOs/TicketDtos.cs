@@ -8,7 +8,6 @@ namespace EventosAPI.Application.DTOs
         public Guid BatchId { get; set; }
         public BatchDto Batch { get; set; } = null!;
         public Guid OrderId { get; set; }
-        public OrderDto Order { get; set; } = null!;
         public Guid UserId { get; set; }
         public UserDto User { get; set; } = null!;
         public decimal Price { get; set; }

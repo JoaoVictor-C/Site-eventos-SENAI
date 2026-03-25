@@ -61,7 +61,7 @@ namespace EventosAPI.Application.Mappings
             // Ticket mappings
             CreateMap<Ticket, TicketDto>()
                 .ForMember(dest => dest.Batch, opt => opt.MapFrom(src => src.Batch))
-                .ForMember(dest => dest.Order, opt => opt.MapFrom(src => src.Order));
+                ;
             CreateMap<CreateTicketDto, Ticket>();
             CreateMap<UpdateTicketDto, Ticket>()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));

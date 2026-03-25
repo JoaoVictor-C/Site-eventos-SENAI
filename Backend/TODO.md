@@ -59,12 +59,12 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 
 ## API Contracts / Serialization (High Impact)
 
-- [ ] DTO cycles currently force `ReferenceHandler.Preserve`:
+- [x] DTO cycles currently force `ReferenceHandler.Preserve`:
 - [ ] `TicketDto` includes `OrderDto`, and `OrderDto` includes `IEnumerable<TicketDto>`:
 - [ ] `Backend/EventosAPI.Application/DTOs/TicketDtos.cs`
 - [ ] `Backend/EventosAPI.Application/DTOs/OrderDtos.cs`
 - [ ] `Backend/EventosAPI.API/Program.cs` sets `ReferenceHandler.Preserve`.
-- [ ] Break cycles at DTO level (prefer summary DTOs / IDs) and remove `Preserve`.
+- [x] Broke the `OrderDto <-> TicketDto` cycle and removed `ReferenceHandler.Preserve` from `Backend/EventosAPI.API/Program.cs`.
 
 - [ ] Consolidate `ApiResponse<T>` (currently duplicated):
 - [ ] `Backend/EventosAPI.API/Controllers/ApiControllerBase.cs` defines an `ApiResponse<T>`.
@@ -164,7 +164,7 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 2. [ ] Remove secrets from tracked config and move to env vars / user-secrets (Docker updated; docs still pending).
 3. [x] Fix organizer/admin permission checks in `EventsController` using `ValidateEventAccess(...)`.
 4. [ ] Decide + implement a consistent event-role model (storage + queries + controller behaviors).
-5. [ ] Break DTO cycles, remove `ReferenceHandler.Preserve`, and stabilize response contracts.
+5. [x] Break DTO cycles, remove `ReferenceHandler.Preserve`, and stabilize response contracts.
 6. [ ] Add transactions around reserve/purchase flows, fix route/body mismatch, and harden consistency.
 7. [ ] Fix config mismatches (rate limiting, JWT expiry, CORS).
 8. [ ] Repo hygiene cleanup + delete dead files + fix encoding/mojibake.
