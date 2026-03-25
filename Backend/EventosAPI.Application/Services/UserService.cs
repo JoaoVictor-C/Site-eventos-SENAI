@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using EventosAPI.Application.DTOs;
 using EventosAPI.Application.Interfaces;
@@ -19,19 +20,22 @@ namespace EventosAPI.Application.Services
         private readonly IConfiguration _configuration;
         private readonly IPasswordHashService _passwordHashService;
         private readonly ITokenService _tokenService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UserService(
             IUserRepository userRepository, 
             IMapper mapper, 
             IConfiguration configuration,
             IPasswordHashService passwordHashService,
-            ITokenService tokenService)
+            ITokenService tokenService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _configuration = configuration;
             _passwordHashService = passwordHashService;
             _tokenService = tokenService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<UserDto> GetByIdAsync(Guid id)
@@ -100,8 +104,11 @@ namespace EventosAPI.Application.Services
 
         public Task<UserDto> GetCurrentUserAsync()
         {
-            // This is just a placeholder - implement actual user context retrieval
-            throw new NotImplementedException("GetCurrentUserAsync needs to be implemented with actual HTTP context");
+            var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrWhiteSpace(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
+                throw new System.UnauthorizedAccessException("User is not authenticated");
+
+            return GetByIdAsync(userId);
         }
 
         private string GenerateJwtToken(User user)

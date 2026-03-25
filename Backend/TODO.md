@@ -127,9 +127,8 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 - [ ] Role logic mixed into `Backend/EventosAPI.Infrastructure/Repositories/EventRepository.cs`
 - [ ] Consolidate into `EventRoleService` + `EventRoleRepository`.
 
-- [ ] `GET /api/v1/users/me` will crash:
-- [ ] `Backend/EventosAPI.Application/Services/UserService.cs` throws `NotImplementedException` in `GetCurrentUserAsync()`.
-- [ ] Implement via `IHttpContextAccessor` or remove endpoint temporarily.
+- [x] `GET /api/v1/users/me` will crash:
+- [x] Implemented `GetCurrentUserAsync()` in `Backend/EventosAPI.Application/Services/UserService.cs` using `IHttpContextAccessor`.
 
 - [x] Add transactionality to multi-step flows:
 - [x] Added `IUnitOfWork` + EF implementation and wrapped:
