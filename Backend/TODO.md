@@ -155,8 +155,8 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 
 ## Repo Hygiene / Dead Files
 
-- [ ] Add/verify `.gitignore` for:
-- [ ] `.vs/`, `**/bin/`, `**/obj/`, `Backend/EventosAPI.API/Logs/`.
+- [x] Add/verify `.gitignore` for:
+- [x] `.vs/`, `**/bin/`, `**/obj/`, `Backend/EventosAPI.API/Logs/`.
 
 - [ ] Remove empty / placeholder files if truly unused:
 - [x] `Backend/EventosAPI.Application/DTOs/TicketPurchaseRequestDto.cs` (0 bytes)
