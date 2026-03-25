@@ -10,6 +10,7 @@ using EventosAPI.Domain.Interfaces.Repositories;
 using EventosAPI.Application.Interfaces;
 using EventosAPI.Application.Services;
 using EventosAPI.Application.Mappings;
+using AutoMapper;
 using Serilog;
 using EventosAPI.API.Extensions;
 using EventosAPI.API.Middleware;
@@ -65,7 +66,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 // Configure AutoMapper
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.AddProfile<MappingProfile>();
+});
 
 // Configure HTTP Context Accessor
 builder.Services.AddHttpContextAccessor();

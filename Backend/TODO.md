@@ -16,7 +16,7 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 ## Build Status / Dependencies
 
 - [ ] Fix NuGet vulnerability warning:
-- [ ] Update `AutoMapper` from `12.0.1` (flagged high severity) in `Backend/EventosAPI.Application/EventosAPI.Application.csproj`.
+- [x] Update `AutoMapper` from `12.0.1` (flagged high severity) in `Backend/EventosAPI.Application/EventosAPI.Application.csproj`.
 - [ ] Fix nullable warnings in `Backend/EventosAPI.API/Controllers/v1/GoogleAuthController.cs`.
 - [ ] Remove committed build output and runtime artifacts:
 - [ ] `bin/`, `obj/`.
@@ -169,4 +169,4 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 6. [x] Add transactions around reserve/purchase flows, fix route/body mismatch, and harden consistency.
 7. [x] Fix config mismatches (rate limiting, JWT expiry, CORS).
 8. [ ] Repo hygiene cleanup + delete dead files + fix encoding/mojibake.
-9. [ ] Dependency upgrades (AutoMapper vulnerability, other updates) and rebuild.
+9. [x] Dependency upgrades (AutoMapper vulnerability, other updates) and rebuild.
