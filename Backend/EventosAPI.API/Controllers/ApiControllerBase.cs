@@ -3,6 +3,7 @@ using System.Security.Claims;
 using EventosAPI.Application.Interfaces;
 using EventosAPI.Domain.Enums;
 using AppUnauthorizedAccessException = EventosAPI.Application.Exceptions.UnauthorizedAccessException;
+using EventosAPI.API.Models;
 
 namespace EventosAPI.API.Controllers
 {
@@ -43,7 +44,8 @@ namespace EventosAPI.API.Controllers
             {
                 Success = false,
                 Message = message,
-                Data = null
+                Data = null,
+                Errors = null
             };
 
             return StatusCode(statusCode, response);
@@ -55,7 +57,8 @@ namespace EventosAPI.API.Controllers
             {
                 Success = false,
                 Message = "One or more validation errors occurred.",
-                Data = errors
+                Data = null,
+                Errors = errors
             };
 
             return StatusCode(400, response);
@@ -86,12 +89,5 @@ namespace EventosAPI.API.Controllers
             if (!await eventService.HasEventRoleAsync(eventId, userId, requiredRole))
                 throw new AppUnauthorizedAccessException($"Forbidden: missing required role {requiredRole} for this event");
         }
-    }
-
-    public class ApiResponse<T>
-    {
-        public bool Success { get; set; }
-        public string? Message { get; set; }
-        public T? Data { get; set; }
     }
 }

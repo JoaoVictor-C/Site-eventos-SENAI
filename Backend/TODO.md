@@ -67,14 +67,15 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 - [x] Broke the `OrderDto <-> TicketDto` cycle and removed `ReferenceHandler.Preserve` from `Backend/EventosAPI.API/Program.cs`.
 
 - [ ] Consolidate `ApiResponse<T>` (currently duplicated):
-- [ ] `Backend/EventosAPI.API/Controllers/ApiControllerBase.cs` defines an `ApiResponse<T>`.
-- [ ] `Backend/EventosAPI.API/Models/ApiResponse.cs` defines another.
-- [ ] Keep one, update controllers/middleware consistently.
+- [x] `Backend/EventosAPI.API/Controllers/ApiControllerBase.cs` defines an `ApiResponse<T>`.
+- [x] `Backend/EventosAPI.API/Models/ApiResponse.cs` defines another.
+- [x] Kept `Backend/EventosAPI.API/Models/ApiResponse.cs` and updated `ApiControllerBase` + `ErrorHandlingMiddleware` to use it.
 
 - [ ] Pick one error handling approach:
 - [ ] Exception-driven (recommended since you have `ErrorHandlingMiddleware`).
 - [ ] Or explicit result/return objects.
 - [ ] Today it’s mixed (manual `HandleError(...)` + exceptions).
+- [x] Standardized middleware error envelope to `ApiResponse<T>` (response shape now consistent across controller helpers + middleware).
 
 ## Configuration Problems
 

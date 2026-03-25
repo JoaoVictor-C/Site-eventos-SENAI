@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using EventosAPI.API.Models;
 using ApplicationException = EventosAPI.Application.Exceptions.ApplicationException;
 using ValidationException = EventosAPI.Application.Exceptions.ValidationException;
 using NotFoundException = EventosAPI.Application.Exceptions.NotFoundException;
@@ -46,71 +47,41 @@ namespace EventosAPI.API.Middleware
             {
                 case ValidationException validationEx:
                     response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    errorResponse = new
-                    {
-                        success = false,
-                        message = "Validation failed",
-                        errors = validationEx.Errors
-                    };
+                    errorResponse = ApiResponse<object>.Fail("Validation failed", validationEx.Errors);
                     break;
 
                 case NotFoundException notFoundEx:
                     response.StatusCode = (int)HttpStatusCode.NotFound;
-                    errorResponse = new
-                    {
-                        success = false,
-                        message = notFoundEx.Message
-                    };
+                    errorResponse = ApiResponse<object>.Fail(notFoundEx.Message);
                     break;
 
                 case UnauthorizedAccessException:
                     response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    errorResponse = new
-                    {
-                        success = false,
-                        message = "Unauthorized access"
-                    };
+                    errorResponse = ApiResponse<object>.Fail("Unauthorized");
                     break;
 
                 case AppUnauthorizedAccessException appUnauthorizedEx:
                     response.StatusCode = (int)HttpStatusCode.Forbidden;
-                    errorResponse = new
-                    {
-                        success = false,
-                        message = appUnauthorizedEx.Message
-                    };
+                    errorResponse = ApiResponse<object>.Fail(appUnauthorizedEx.Message);
                     break;
 
                 case BusinessRuleException businessEx:
                     response.StatusCode = (int)HttpStatusCode.Conflict;
-                    errorResponse = new
-                    {
-                        success = false,
-                        message = businessEx.Message
-                    };
+                    errorResponse = ApiResponse<object>.Fail(businessEx.Message);
                     break;
 
                 case ApplicationException appEx:
                     response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    errorResponse = new
-                    {
-                        success = false,
-                        message = appEx.Message
-                    };
+                    errorResponse = ApiResponse<object>.Fail(appEx.Message);
                     break;
 
                 default:
                     response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    errorResponse = new
-                    {
-                        success = false,
-                        message = _environment.IsDevelopment() ? exception.Message : "An internal error occurred",
-                        details = _environment.IsDevelopment() ? new
-                        {
-                            exception = exception.GetType().Name,
-                            stackTrace = exception.StackTrace
-                        } : null
-                    };
+                    errorResponse = ApiResponse<object>.Fail(
+                        _environment.IsDevelopment() ? exception.Message : "An internal error occurred",
+                        _environment.IsDevelopment()
+                            ? new { exception = exception.GetType().Name, stackTrace = exception.StackTrace }
+                            : null);
                     break;
             }
 
