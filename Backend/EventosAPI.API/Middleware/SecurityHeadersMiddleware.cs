@@ -23,10 +23,7 @@ namespace EventosAPI.API.Middleware
             
             // Control iframe embedding
             headers["X-Frame-Options"] = "DENY";
-            
-            // Enable HSTS - force HTTPS
-            headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains";
-            
+
             // Control browser features
             headers["Permissions-Policy"] = "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()";
             
@@ -41,12 +38,6 @@ namespace EventosAPI.API.Middleware
 
             // Referrer policy
             headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
-
-            // Only add HSTS header on HTTPS
-            if (context.Request.IsHttps)
-            {
-                headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains";
-            }
 
             await _next(context);
         }

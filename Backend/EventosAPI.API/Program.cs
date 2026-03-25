@@ -185,9 +185,17 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ApplicationDbContext>();
-        var seeder = services.GetRequiredService<DatabaseSeeder>();
-        await context.Database.MigrateAsync();
-        await seeder.SeedAsync();
+        var autoMigrate = builder.Configuration.GetValue("Database:AutoMigrate", app.Environment.IsDevelopment());
+        var autoSeed = builder.Configuration.GetValue("Database:AutoSeed", app.Environment.IsDevelopment());
+
+        if (autoMigrate)
+            await context.Database.MigrateAsync();
+
+        if (autoSeed)
+        {
+            var seeder = services.GetRequiredService<DatabaseSeeder>();
+            await seeder.SeedAsync();
+        }
     }
     catch (Exception ex)
     {

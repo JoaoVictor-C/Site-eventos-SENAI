@@ -145,11 +145,11 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 
 ## Operational Concerns
 
-- [ ] Avoid running migrations + seeding on every startup in non-dev:
-- [ ] `Backend/EventosAPI.API/Program.cs` runs `MigrateAsync()` + `SeedAsync()` unconditionally.
+- [x] Avoid running migrations + seeding on every startup in non-dev:
+- [x] `Backend/EventosAPI.API/Program.cs` now gates migrations/seeding behind `Database:AutoMigrate` / `Database:AutoSeed` (defaulting to true only in Development).
 
 - [ ] Fix security headers middleware behavior:
-- [ ] `Backend/EventosAPI.API/Middleware/SecurityHeadersMiddleware.cs` sets HSTS redundantly/unconditionally.
+- [x] `Backend/EventosAPI.API/Middleware/SecurityHeadersMiddleware.cs` no longer sets HSTS (rely on `app.UseHsts()` in non-dev).
 
 ## Repo Hygiene / Dead Files
 
