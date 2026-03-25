@@ -57,6 +57,10 @@ namespace EventosAPI.API.Controllers.v1
         {
             var validatorId = GetCurrentUserId();
 
+            if (validationDto.OrderId != Guid.Empty && validationDto.OrderId != orderId)
+                return HandleError("OrderId mismatch", 400);
+            validationDto.OrderId = orderId;
+
             var order = await _ticketService.GetOrderAsync(orderId);
             if (order == null)
                 return HandleError("Order not found", 404);

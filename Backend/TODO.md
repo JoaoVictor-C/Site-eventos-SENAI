@@ -131,12 +131,13 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 - [ ] `Backend/EventosAPI.Application/Services/UserService.cs` throws `NotImplementedException` in `GetCurrentUserAsync()`.
 - [ ] Implement via `IHttpContextAccessor` or remove endpoint temporarily.
 
-- [ ] Add transactionality to multi-step flows:
-- [ ] `ReserveTicketsAsync` in `Backend/EventosAPI.Application/Services/TicketService.cs`
-- [ ] `CreateOrderAsync` in `Backend/EventosAPI.Application/Services/OrderService.cs`
+- [x] Add transactionality to multi-step flows:
+- [x] Added `IUnitOfWork` + EF implementation and wrapped:
+- [x] `ReserveTicketsAsync` in `Backend/EventosAPI.Application/Services/TicketService.cs`
+- [x] `CreateOrderAsync` in `Backend/EventosAPI.Application/Services/OrderService.cs`
 
-- [ ] Fix route param vs body param mismatch risk:
-- [ ] `TicketsController.ValidateTicketPayment(...)` should set `validationDto.OrderId = orderId` and reject mismatches.
+- [x] Fix route param vs body param mismatch risk:
+- [x] `Backend/EventosAPI.API/Controllers/v1/TicketsController.cs` now rejects mismatches and forces `validationDto.OrderId = orderId`.
 
 ## Operational Concerns
 
@@ -165,7 +166,7 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 3. [x] Fix organizer/admin permission checks in `EventsController` using `ValidateEventAccess(...)`.
 4. [ ] Decide + implement a consistent event-role model (storage + queries + controller behaviors).
 5. [x] Break DTO cycles, remove `ReferenceHandler.Preserve`, and stabilize response contracts.
-6. [ ] Add transactions around reserve/purchase flows, fix route/body mismatch, and harden consistency.
+6. [x] Add transactions around reserve/purchase flows, fix route/body mismatch, and harden consistency.
 7. [ ] Fix config mismatches (rate limiting, JWT expiry, CORS).
 8. [ ] Repo hygiene cleanup + delete dead files + fix encoding/mojibake.
 9. [ ] Dependency upgrades (AutoMapper vulnerability, other updates) and rebuild.

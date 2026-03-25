@@ -84,6 +84,7 @@ builder.Services.AddScoped<IEventRoleService, EventRoleService>();
 builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<DatabaseSeeder>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPasswordHashService, BCryptPasswordHashService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IBatchService, BatchService>();

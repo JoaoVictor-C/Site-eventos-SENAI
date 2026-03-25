@@ -15,6 +15,7 @@ namespace EventosAPI.Application.Services
         private readonly IOrderRepository _orderRepository;
         private readonly IBatchRepository _batchRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         public TicketService(
@@ -22,12 +23,14 @@ namespace EventosAPI.Application.Services
             IOrderRepository orderRepository,
             IBatchRepository batchRepository,
             IUserRepository userRepository,
+            IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             _ticketRepository = ticketRepository;
             _orderRepository = orderRepository;
             _batchRepository = batchRepository;
             _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -54,73 +57,74 @@ namespace EventosAPI.Application.Services
 
         public async Task<TicketReservationResponseDto> ReserveTicketsAsync(TicketReservationDto reservationDto, Guid userId)
         {
-            var batch = await _batchRepository.GetByIdAsync(reservationDto.BatchId)
-                ?? throw new NotFoundException(nameof(Batch), reservationDto.BatchId);
-
-            var user = await _userRepository.GetByIdAsync(userId)
-                ?? throw new NotFoundException(nameof(User), userId);
-
-            if (!batch.IsActive)
-                throw new BusinessRuleException("This ticket batch is not active");
-
-            if (batch.Stock < reservationDto.Quantity)
-                throw new BusinessRuleException("Not enough tickets available in this batch");
-
-            if (!reservationDto.AcceptTerms)
-                throw new ValidationException(new[] { "You must accept the terms and conditions" });
-
-            // Create order with pending status
-            var order = new Order
+            return await _unitOfWork.ExecuteInTransactionAsync(async cancellationToken =>
             {
-                UserId = userId,
-                User = user,
-                Quantity = reservationDto.Quantity,
-                Total = batch.UnitPrice * reservationDto.Quantity,
-                Status = OrderStatus.Pending,
-                OrderDate = DateTime.UtcNow,
-                Event = batch.Event,
-                EventId = batch.EventId,
-            };
+                var batch = await _batchRepository.GetByIdAsync(reservationDto.BatchId)
+                    ?? throw new NotFoundException(nameof(Batch), reservationDto.BatchId);
 
-            // Save order
-            await _orderRepository.CreateAsync(order);
+                var user = await _userRepository.GetByIdAsync(userId)
+                    ?? throw new NotFoundException(nameof(User), userId);
 
-            // Create tickets
-            var tickets = new List<Ticket>();
-            for (int i = 0; i < reservationDto.Quantity; i++)
-            {
-                var ticket = new Ticket
+                if (!batch.IsActive)
+                    throw new BusinessRuleException("This ticket batch is not active");
+
+                if (batch.Stock < reservationDto.Quantity)
+                    throw new BusinessRuleException("Not enough tickets available in this batch");
+
+                if (!reservationDto.AcceptTerms)
+                    throw new ValidationException(new[] { "You must accept the terms and conditions" });
+
+                // Create order with pending status
+                var order = new Order
                 {
-                    OrderId = order.Id,
-                    Order = order,
-                    BatchId = batch.Id,
-                    Batch = batch,
                     UserId = userId,
                     User = user,
-                    Status = TicketStatus.Pending,
-                    Type = reservationDto.Type,
-                    Price = batch.UnitPrice,
-                    IsActive = true,
-                    QRCode = GenerateQRCode(order.Id, i)
+                    Quantity = reservationDto.Quantity,
+                    Total = batch.UnitPrice * reservationDto.Quantity,
+                    Status = OrderStatus.Pending,
+                    OrderDate = DateTime.UtcNow,
+                    Event = batch.Event,
+                    EventId = batch.EventId,
                 };
 
-                tickets.Add(ticket);
-                await _ticketRepository.CreateAsync(ticket);
-            }
+                await _orderRepository.CreateAsync(order);
 
-            // Update batch stock
-            batch.Stock -= reservationDto.Quantity;
-            await _batchRepository.UpdateAsync(batch);
+                // Create tickets
+                var tickets = new List<Ticket>();
+                for (int i = 0; i < reservationDto.Quantity; i++)
+                {
+                    var ticket = new Ticket
+                    {
+                        OrderId = order.Id,
+                        Order = order,
+                        BatchId = batch.Id,
+                        Batch = batch,
+                        UserId = userId,
+                        User = user,
+                        Status = TicketStatus.Pending,
+                        Type = reservationDto.Type,
+                        Price = batch.UnitPrice,
+                        IsActive = true,
+                        QRCode = GenerateQRCode(order.Id, i)
+                    };
 
-            // Create response
-            return new TicketReservationResponseDto
-            {
-                OrderId = order.Id,
-                TotalAmount = order.Total,
-                ReservationExpiration = DateTime.UtcNow.AddHours(24),
-                PaymentInstructions = GetPaymentInstructions(batch.Event, order),
-                Tickets = _mapper.Map<IEnumerable<TicketDto>>(tickets)
-            };
+                    tickets.Add(ticket);
+                    await _ticketRepository.CreateAsync(ticket);
+                }
+
+                // Update batch stock
+                batch.Stock -= reservationDto.Quantity;
+                await _batchRepository.UpdateAsync(batch);
+
+                return new TicketReservationResponseDto
+                {
+                    OrderId = order.Id,
+                    TotalAmount = order.Total,
+                    ReservationExpiration = DateTime.UtcNow.AddHours(24),
+                    PaymentInstructions = GetPaymentInstructions(batch.Event, order),
+                    Tickets = _mapper.Map<IEnumerable<TicketDto>>(tickets)
+                };
+            });
         }
 
         public async Task ValidateTicketPaymentAsync(TicketValidationDto validationDto, Guid validatorId)

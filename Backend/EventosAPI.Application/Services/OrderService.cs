@@ -14,6 +14,7 @@ namespace EventosAPI.Application.Services
         private readonly IBatchRepository _batchRepository;
         private readonly ITicketService _ticketService;
         private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         public OrderService(
@@ -21,12 +22,14 @@ namespace EventosAPI.Application.Services
             IBatchRepository batchRepository,
             ITicketService ticketService,
             IUserRepository userRepository,
+            IUnitOfWork unitOfWork,
             IMapper mapper)
         {
             _orderRepository = orderRepository;
             _batchRepository = batchRepository;
             _ticketService = ticketService;
             _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -45,67 +48,70 @@ namespace EventosAPI.Application.Services
 
         public async Task<OrderDto> CreateOrderAsync(CreateOrderDto createOrderDto)
         {
-            var batch = await _batchRepository.GetByIdAsync(createOrderDto.BatchId)
-                ?? throw new NotFoundException(nameof(Batch), createOrderDto.BatchId);
-
-            var user = await _userRepository.GetByIdAsync(createOrderDto.UserId)
-                ?? throw new NotFoundException(nameof(User), createOrderDto.UserId);
-
-            if (!batch.IsActive)
-                throw new BusinessRuleException("This batch is not active");
-
-            if (batch.Stock < createOrderDto.Quantity)
-                throw new BusinessRuleException("Not enough tickets available in this batch");
-
-            if (batch.EndDate < DateTime.UtcNow)
-                throw new BusinessRuleException("This batch has ended");
-
-            var order = new Order
+            return await _unitOfWork.ExecuteInTransactionAsync(async ct =>
             {
-                UserId = createOrderDto.UserId,
-                User = user,
-                PaymentMethod = createOrderDto.PaymentMethod,
-                Quantity = createOrderDto.Quantity,
-                Total = batch.UnitPrice * createOrderDto.Quantity,
-                Event = batch.Event,
-                EventId = batch.EventId,
-            };
+                var batch = await _batchRepository.GetByIdAsync(createOrderDto.BatchId)
+                    ?? throw new NotFoundException(nameof(Batch), createOrderDto.BatchId);
 
-            await _orderRepository.CreateAsync(order);
+                var user = await _userRepository.GetByIdAsync(createOrderDto.UserId)
+                    ?? throw new NotFoundException(nameof(User), createOrderDto.UserId);
 
-            // Create tickets for the order
-            foreach (var ticketRequest in createOrderDto.TicketRequests)
-            {
-                var createTicketDto = new CreateTicketDto
+                if (!batch.IsActive)
+                    throw new BusinessRuleException("This batch is not active");
+
+                if (batch.Stock < createOrderDto.Quantity)
+                    throw new BusinessRuleException("Not enough tickets available in this batch");
+
+                if (batch.EndDate < DateTime.UtcNow)
+                    throw new BusinessRuleException("This batch has ended");
+
+                var order = new Order
                 {
-                    BatchId = batch.Id,
-                    OrderId = order.Id,
                     UserId = createOrderDto.UserId,
-                    Type = ticketRequest.Type,
-                    DocumentNumber = ticketRequest.DocumentNumber
+                    User = user,
+                    PaymentMethod = createOrderDto.PaymentMethod,
+                    Quantity = createOrderDto.Quantity,
+                    Total = batch.UnitPrice * createOrderDto.Quantity,
+                    Event = batch.Event,
+                    EventId = batch.EventId,
                 };
 
-                await _ticketService.CreateTicketAsync(createTicketDto, order.UserId);
-            }
+                await _orderRepository.CreateAsync(order);
 
-            // Update batch stock
-            batch.Stock -= createOrderDto.Quantity;
-            await _batchRepository.UpdateAsync(batch);
+                // Create tickets for the order
+                foreach (var ticketRequest in createOrderDto.TicketRequests)
+                {
+                    var createTicketDto = new CreateTicketDto
+                    {
+                        BatchId = batch.Id,
+                        OrderId = order.Id,
+                        UserId = createOrderDto.UserId,
+                        Type = ticketRequest.Type,
+                        DocumentNumber = ticketRequest.DocumentNumber
+                    };
 
-            // Check if batch is fully used and needs to be deactivated
-            if (batch.Stock == 0)
-            {
-                batch.IsActive = false;
+                    await _ticketService.CreateTicketAsync(createTicketDto, order.UserId);
+                }
+
+                // Update batch stock
+                batch.Stock -= createOrderDto.Quantity;
                 await _batchRepository.UpdateAsync(batch);
 
-                // Activate next batch if available
-                await ActivateNextBatchAsync(batch.EventId);
-            }
+                // Check if batch is fully used and needs to be deactivated
+                if (batch.Stock == 0)
+                {
+                    batch.IsActive = false;
+                    await _batchRepository.UpdateAsync(batch);
 
-            var createdOrder = await _orderRepository.GetByIdAsync(order.Id)
-                ?? throw new BusinessRuleException("Failed to retrieve created order");
+                    // Activate next batch if available
+                    await ActivateNextBatchAsync(batch.EventId);
+                }
 
-            return _mapper.Map<OrderDto>(createdOrder);
+                var createdOrder = await _orderRepository.GetByIdAsync(order.Id)
+                    ?? throw new BusinessRuleException("Failed to retrieve created order");
+
+                return _mapper.Map<OrderDto>(createdOrder);
+            });
         }
 
         public async Task<OrderDto> UpdateOrderAsync(Guid id, UpdateOrderDto updateOrderDto)
