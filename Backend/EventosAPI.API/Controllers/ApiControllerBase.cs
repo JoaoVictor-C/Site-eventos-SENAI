@@ -77,7 +77,7 @@ namespace EventosAPI.API.Controllers
             return User.IsInRole("Admin");
         }
 
-        protected async Task ValidateEventAccess(Guid eventId, IEventService eventService, EventRoleType requiredRole)
+        protected async Task ValidateEventAccess(Guid eventId, IEventService eventService, IEventRoleService eventRoleService, EventRoleType requiredRole)
         {
             // Allow global admins to bypass event role checks
             if (IsCurrentUserAdmin())
@@ -86,7 +86,7 @@ namespace EventosAPI.API.Controllers
             if (await eventService.IsEventOrganizerAsync(eventId, GetCurrentUserId()))
                 return;
             var userId = GetCurrentUserId();
-            if (!await eventService.HasEventRoleAsync(eventId, userId, requiredRole))
+            if (!await eventRoleService.HasEventPermissionAsync(eventId, userId, requiredRole))
                 throw new AppUnauthorizedAccessException($"Forbidden: missing required role {requiredRole} for this event");
         }
     }

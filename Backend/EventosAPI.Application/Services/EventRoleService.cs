@@ -121,6 +121,7 @@ namespace EventosAPI.Application.Services
 
             if (currentUser.IsAdminMaster(AdminMasterEmail)) return;
             if (await _eventRepository.IsOrganizerAsync(eventId, currentUserId)) return;
+            if (await HasEventPermissionAsync(eventId, currentUserId, EventRoleType.ManageRoles)) return;
 
             throw new AppUnauthorizedAccessException("Forbidden");
         }

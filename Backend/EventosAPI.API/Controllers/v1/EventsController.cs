@@ -10,10 +10,12 @@ namespace EventosAPI.API.Controllers.v1
     public class EventsController : ApiControllerBase
     {
         private readonly IEventService _eventService;
+        private readonly IEventRoleService _eventRoleService;
 
-        public EventsController(IEventService eventService)
+        public EventsController(IEventService eventService, IEventRoleService eventRoleService)
         {
             _eventService = eventService;
+            _eventRoleService = eventRoleService;
         }
 
         [HttpGet]
@@ -59,7 +61,7 @@ namespace EventosAPI.API.Controllers.v1
         [Authorize]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateEventDto updateEventDto)
         {
-            await ValidateEventAccess(id, _eventService, Domain.Enums.EventRoleType.ManageEvent);
+            await ValidateEventAccess(id, _eventService, _eventRoleService, Domain.Enums.EventRoleType.ManageEvent);
             await _eventService.UpdateAsync(id, updateEventDto);
             return HandleSuccess<object>(null, "Evento atualizado com sucesso");
         }
@@ -68,7 +70,7 @@ namespace EventosAPI.API.Controllers.v1
         [Authorize]
         public async Task<IActionResult> CreateBatch(Guid id, [FromBody] CreateBatchDto createBatchDto)
         {
-            await ValidateEventAccess(id, _eventService, Domain.Enums.EventRoleType.ManageBatches);
+            await ValidateEventAccess(id, _eventService, _eventRoleService, Domain.Enums.EventRoleType.ManageBatches);
             createBatchDto.EventId = id;
             var batch = await _eventService.CreateBatchAsync(id, createBatchDto);
             return HandleSuccess(batch, "Lote criado com sucesso");
@@ -78,7 +80,7 @@ namespace EventosAPI.API.Controllers.v1
         [Authorize]
         public async Task<IActionResult> UpdateBatch(Guid eventId, Guid batchId, [FromBody] UpdateBatchDto updateBatchDto)
         {
-            await ValidateEventAccess(eventId, _eventService, Domain.Enums.EventRoleType.ManageBatches);
+            await ValidateEventAccess(eventId, _eventService, _eventRoleService, Domain.Enums.EventRoleType.ManageBatches);
             var batch = await _eventService.UpdateBatchAsync(eventId, batchId, updateBatchDto);
             return HandleSuccess(batch, "Lote atualizado com sucesso");
         }
@@ -87,7 +89,7 @@ namespace EventosAPI.API.Controllers.v1
         [Authorize]
         public async Task<IActionResult> DeleteBatch(Guid eventId, Guid batchId)
         {
-            await ValidateEventAccess(eventId, _eventService, Domain.Enums.EventRoleType.ManageBatches);
+            await ValidateEventAccess(eventId, _eventService, _eventRoleService, Domain.Enums.EventRoleType.ManageBatches);
             await _eventService.DeleteBatchAsync(eventId, batchId);
             return HandleSuccess<object>(null, "Lote removido com sucesso");
         }
@@ -96,7 +98,7 @@ namespace EventosAPI.API.Controllers.v1
         [Authorize]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await ValidateEventAccess(id, _eventService, Domain.Enums.EventRoleType.ManageEvent);
+            await ValidateEventAccess(id, _eventService, _eventRoleService, Domain.Enums.EventRoleType.ManageEvent);
             await _eventService.DeleteAsync(id);
             return HandleSuccess<object>(null, message: "Evento excluído com sucesso");
         }

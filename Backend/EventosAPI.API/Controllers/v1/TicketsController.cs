@@ -12,13 +12,16 @@ namespace EventosAPI.API.Controllers.v1
     {
         private readonly ITicketService _ticketService;
         private readonly IEventService _eventService;
+        private readonly IEventRoleService _eventRoleService;
 
         public TicketsController(
             ITicketService ticketService,
-            IEventService eventService)
+            IEventService eventService,
+            IEventRoleService eventRoleService)
         {
             _ticketService = ticketService;
             _eventService = eventService;
+            _eventRoleService = eventRoleService;
         }
 
         [HttpGet("my-tickets")]
@@ -34,7 +37,7 @@ namespace EventosAPI.API.Controllers.v1
         [Authorize]
         public async Task<IActionResult> GetEventTickets(Guid eventId)
         {
-            await ValidateEventAccess(eventId, _eventService, Domain.Enums.EventRoleType.ManageTickets);
+            await ValidateEventAccess(eventId, _eventService, _eventRoleService, Domain.Enums.EventRoleType.ManageTickets);
             var tickets = await _ticketService.GetTicketsByEventAsync(eventId);
             return HandleSuccess(tickets);
         }
@@ -59,7 +62,7 @@ namespace EventosAPI.API.Controllers.v1
             validationDto.OrderId = orderId;
 
             var order = await _ticketService.GetOrderAsync(orderId);
-            await ValidateEventAccess(order.EventId, _eventService, Domain.Enums.EventRoleType.ManageTickets);
+            await ValidateEventAccess(order.EventId, _eventService, _eventRoleService, Domain.Enums.EventRoleType.ManageTickets);
             await _ticketService.ValidateTicketPaymentAsync(validationDto, validatorId);
 
             return HandleSuccess<object>(null, "Ticket payment validated successfully");
@@ -73,7 +76,7 @@ namespace EventosAPI.API.Controllers.v1
             var order = await _ticketService.GetOrderAsync(orderId);
 
             if (order.UserId != userId)
-                await ValidateEventAccess(order.EventId, _eventService, Domain.Enums.EventRoleType.ManageTickets);
+                await ValidateEventAccess(order.EventId, _eventService, _eventRoleService, Domain.Enums.EventRoleType.ManageTickets);
 
             return HandleSuccess(order);
         }
@@ -100,7 +103,7 @@ namespace EventosAPI.API.Controllers.v1
         public async Task<IActionResult> GetOrdersByEvent(Guid eventId)
         {
             if (!IsCurrentUserAdmin())
-                await ValidateEventAccess(eventId, _eventService, Domain.Enums.EventRoleType.ManageTickets);
+                await ValidateEventAccess(eventId, _eventService, _eventRoleService, Domain.Enums.EventRoleType.ManageTickets);
 
             var orders = await _ticketService.GetOrdersByEventAsync(eventId);
             return HandleSuccess(orders);

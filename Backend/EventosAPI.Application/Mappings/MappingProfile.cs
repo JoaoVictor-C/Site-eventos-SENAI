@@ -6,13 +6,6 @@ namespace EventosAPI.Application.Mappings
 {
     public class MappingProfile : Profile
     {
-        private string GetEventNameFromOrder(Order order)
-        {
-            var ticket = order.Tickets.FirstOrDefault();
-            if (ticket?.Batch?.Event?.Name == null) return "N/A";
-            return ticket.Batch.Event.Name;
-        }
-        
         public MappingProfile()
         {
             // User mappings
@@ -50,13 +43,6 @@ namespace EventosAPI.Application.Mappings
                 .ForMember(dest => dest.Tickets, opt => opt.MapFrom(src => src.Tickets))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Name))
                 .ForMember(dest => dest.EventName, opt => opt.MapFrom(src => src.Event.Name));
-            CreateMap<CreateOrderDto, Order>();
-            CreateMap<UpdateOrderDto, Order>()
-                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
-            CreateMap<Order, OrderSummaryDto>()
-                .ForMember(dest => dest.EventName, opt => opt.MapFrom(src =>
-                    GetEventNameFromOrder(src)));
-
 
             // Ticket mappings
             CreateMap<Ticket, TicketDto>()

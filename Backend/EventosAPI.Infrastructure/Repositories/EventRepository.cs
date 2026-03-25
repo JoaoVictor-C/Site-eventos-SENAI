@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using EventosAPI.Domain.Entities;
 using EventosAPI.Domain.Interfaces.Repositories;
 using EventosAPI.Infrastructure.Data;
-using EventosAPI.Domain.Enums;
 
 namespace EventosAPI.Infrastructure.Repositories
 {
@@ -81,118 +80,11 @@ namespace EventosAPI.Infrastructure.Repositories
             return await _dbSet.AnyAsync(e => e.Id == eventId && e.OrganizerId == userId);
         }
 
-        // Event Role Management
-        public async Task<EventRole?> GetEventRoleAsync(Guid eventId, Guid userId, EventRoleType roleType)
-        {
-            return await _context.Set<EventRole>()
-                .Include(er => er.User)
-                .Include(er => er.Event)
-                .FirstOrDefaultAsync(er => er.EventId == eventId &&
-                                        er.UserId == userId &&
-                                        er.RoleType == roleType);
-        }
-
-        public async Task<IEnumerable<EventRole>> GetEventRolesAsync(Guid eventId)
-        {
-            return await _context.Set<EventRole>()
-                .Include(er => er.User)
-                .Include(er => er.Event)
-                .Where(er => er.EventId == eventId)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<EventRole>> GetUserEventRolesAsync(Guid userId)
-        {
-            return await _context.Set<EventRole>()
-                .Include(er => er.User)
-                .Include(er => er.Event)
-                .Where(er => er.UserId == userId)
-                .ToListAsync();
-        }
-
-        public async Task AddEventRoleAsync(EventRole eventRole)
-        {
-            await _context.Set<EventRole>().AddAsync(eventRole);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task RemoveEventRoleAsync(EventRole eventRole)
-        {
-            _context.Set<EventRole>().Remove(eventRole);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<bool> HasEventRoleAsync(Guid eventId, Guid userId, EventRoleType roleType)
-        {
-            if (roleType == EventRoleType.None)
-                return true;
-
-            // Fast path: single atomic flag (power of two)
-            if (IsPowerOfTwo((int)roleType))
-            {
-                return await _context.Set<EventRole>()
-                    .AnyAsync(er => er.EventId == eventId && er.UserId == userId && er.RoleType == roleType);
-            }
-
-            // Composite required roles: OR all stored atomic flags for this user/event and check the mask.
-            var roles = await _context.Set<EventRole>()
-                .Where(er => er.EventId == eventId && er.UserId == userId)
-                .Select(er => er.RoleType)
-                .ToListAsync();
-
-            var mask = roles.Aggregate(EventRoleType.None, (current, next) => current | next);
-            return (mask & roleType) == roleType;
-        }
-
-        public async Task AddRoleAsync(EventRole eventRole)
-        {
-            await _context.Set<EventRole>().AddAsync(eventRole);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task RemoveRoleAsync(Guid eventId, Guid userId, EventRoleType roleType)
-        {
-            if (roleType == EventRoleType.None)
-                return;
-
-            foreach (var role in ExpandToAtomicRoles(roleType))
-            {
-                var eventRole = await _context.Set<EventRole>()
-                    .FirstOrDefaultAsync(er => er.EventId == eventId && er.UserId == userId && er.RoleType == role);
-
-                if (eventRole != null)
-                    _context.Set<EventRole>().Remove(eventRole);
-            }
-
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<IEnumerable<Event>> GetEventsByUserRolesAsync(Guid userId)
         {
             return await _context.Set<Event>()
                 .Where(e => e.EventRoles.Any(er => er.UserId == userId))
                 .ToListAsync();
-        }
-
-        public async Task<EventRole?> GetUserEventRoleAsync(Guid eventId, Guid userId)
-        {
-            return await _context.Set<EventRole>()
-                .FirstOrDefaultAsync(er => er.EventId == eventId && er.UserId == userId);
-        }
-
-        private static bool IsPowerOfTwo(int value) => value > 0 && (value & (value - 1)) == 0;
-
-        private static IEnumerable<EventRoleType> ExpandToAtomicRoles(EventRoleType roleType)
-        {
-            foreach (var value in Enum.GetValues<EventRoleType>())
-            {
-                var intValue = (int)value;
-                if (intValue == 0) continue;
-                if (!IsPowerOfTwo(intValue)) continue;
-
-                if ((roleType & value) == value)
-                    yield return value;
-            }
         }
     }
 }
