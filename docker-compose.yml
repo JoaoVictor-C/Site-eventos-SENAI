@@ -9,7 +9,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=db;Database=eventos_db;User=root;Password=root;
+      - ConnectionStrings__DefaultConnection=Server=db;Database=eventos_db;User=root;Password=${MYSQL_ROOT_PASSWORD};
+      - Jwt__Key=${JWT_KEY}
       - DOTNET_WATCH_RESTART_ON_RUDE_EDIT=true
     volumes:
       - ~/.nuget/packages:/root/.nuget/packages:ro
@@ -35,7 +36,7 @@ services:
     image: mysql:8.0
     container_name: eventos_mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: eventos_db
     ports:
       - "3306:3306"

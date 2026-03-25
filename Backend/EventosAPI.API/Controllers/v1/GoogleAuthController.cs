@@ -1,55 +1,57 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System.Security.Claims;
+using System.Security.Cryptography;
 using Google.Authenticator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using EventosAPI.Application.DTOs;
-using EventosAPI.Application.Interfaces;
-using EventosAPI.Domain.Entities;
-using System.Security.Claims;
-using EventosAPI.Domain.Interfaces.Services;
+using EventosAPI.Domain.Interfaces.Repositories;
 
 namespace EventosAPI.API.Controllers.v1
 {
+    // NOTE: This controller implements TOTP (Google Authenticator compatible) 2FA setup/verification.
+    // The route is kept for backward compatibility with existing clients.
+    [ApiController]
     [Route("api/v1/auth/google")]
-    public class GoogleAuthController : Controller
+    [Authorize]
+    public class GoogleAuthController : ApiControllerBase
     {
-        private readonly IUserService _userService;
-        private readonly ITokenService _tokenService;
-        private readonly IConfiguration _configuration;
+        private const int TwoFactorSecretLength = 20; // Common length for TOTP secrets
+        private static readonly char[] Base32Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567".ToCharArray();
 
-        public GoogleAuthController(IUserService userService, ITokenService tokenService, IConfiguration configuration)
+        private readonly IUserRepository _userRepository;
+
+        public GoogleAuthController(IUserRepository userRepository)
         {
-            _userService = userService;
-            _tokenService = tokenService;
-            _configuration = configuration;
+            _userRepository = userRepository;
         }
 
-        // GET: api/v1/auth/google/setup?email=user@example.com
+        // GET: api/v1/auth/google/setup
         [HttpGet("setup")]
-        public async Task<IActionResult> Setup2FA([FromQuery] string email)
+        public async Task<IActionResult> Setup2FA()
         {
-            // 1. Find user by email
-            var user = await _userService.GetByEmailAsync(email);
+            // Security: do not allow configuring 2FA by arbitrary email. Always use the authenticated user.
+            var userId = GetCurrentUserId();
+            var user = await _userRepository.GetByIdAsync(userId);
             if (user == null)
-                return NotFound("Usuário não encontrado");
+                return HandleError("User not found", 404);
 
-            // 2. Use existing secret or generate a new one
-            string key = user.TwoFactorSecret;
-            if (string.IsNullOrEmpty(key))
+            // Use existing secret or generate a new one.
+            var secret = user.TwoFactorSecret;
+            if (string.IsNullOrEmpty(secret))
             {
-                key = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 10);
-                // Save the secret to the user (implement this in your service/repository)
-                await _userService.SetTwoFactorSecretAsync(user.Id, key);
+                secret = GenerateBase32Secret(TwoFactorSecretLength);
+                user.TwoFactorSecret = secret;
+                await _userRepository.UpdateAsync(user);
             }
 
-            var tfa = new TwoFactorAuthenticator();
-            var setupInfo = tfa.GenerateSetupCode("EventosApp", email, key, false, 3);
+            var emailClaim = User.FindFirst(ClaimTypes.Email)?.Value ?? user.Email;
 
-            return Ok(new
+            var tfa = new TwoFactorAuthenticator();
+            var setupInfo = tfa.GenerateSetupCode("EventosApp", emailClaim, secret, false, 3);
+
+            return HandleSuccess(new
             {
                 qrCodeImageUrl = setupInfo.QrCodeSetupImageUrl,
                 manualEntryKey = setupInfo.ManualEntryKey
-                // Do NOT send the secret to the client
             });
         }
 
@@ -57,19 +59,33 @@ namespace EventosAPI.API.Controllers.v1
         [HttpPost("verify")]
         public async Task<IActionResult> Verify2FA([FromBody] Verify2FARequest request)
         {
-            // 1. Retrieve the user's secret key from DB by email
-            var user = await _userService.GetByEmailAsync(request.Email);
+            var userId = GetCurrentUserId();
+            var user = await _userRepository.GetByIdAsync(userId);
             if (user == null || string.IsNullOrEmpty(user.TwoFactorSecret))
-                return BadRequest("2FA não configurado para este usuário");
+                return HandleError("2FA is not configured for this user", 400);
+
             var tfa = new TwoFactorAuthenticator();
-            bool isValid = tfa.ValidateTwoFactorPIN(user.TwoFactorSecret, request.Code);
-            return Ok(new { valid = isValid });
+            var isValid = tfa.ValidateTwoFactorPIN(user.TwoFactorSecret, request.Code);
+
+            return HandleSuccess(new { valid = isValid });
         }
 
         public class Verify2FARequest
         {
-            public string Email { get; set; }
-            public string Code { get; set; }
+            public string Code { get; set; } = null!;
+        }
+
+        private static string GenerateBase32Secret(int length)
+        {
+            var bytes = RandomNumberGenerator.GetBytes(length);
+            var chars = new char[length];
+
+            for (int i = 0; i < length; i++)
+            {
+                chars[i] = Base32Alphabet[bytes[i] % Base32Alphabet.Length];
+            }
+
+            return new string(chars);
         }
     }
 }
