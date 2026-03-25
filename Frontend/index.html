@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos SENAI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable class-based dark mode
+            theme: {
+                extend: {
+                    colors: {
+                        'senai-red': '#ff0000',
+                        'senai-gray': {
+                            DEFAULT: '#333333', // SENAI dark gray for text
+                            light: '#4F4F4F',   // SENAI light gray
+                        },
+                        'senai-yellow': '#FFCC00', // SENAI yellow accent
+                    }
+                }
+            }
+        }
+    </script>
+<script type="importmap">
+{
+  "imports": {
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.6.1",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="flex flex-col min-h-screen bg-gray-100 text-senai-gray dark:bg-gray-900 dark:text-gray-200 transition-colors duration-300">
+    <div id="root" class="flex flex-col flex-grow w-full"></div>
+    <script type="module" src="/src/index.tsx"></script>
+</body>
+</html>

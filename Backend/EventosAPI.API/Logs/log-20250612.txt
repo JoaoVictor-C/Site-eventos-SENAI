@@ -1,0 +1,354 @@
+2025-06-12 00:00:29.793 +00:00 [INF] Application is shutting down...
+2025-06-12 00:01:29.819 +00:00 [INF] Iniciando a aplicação...
+2025-06-12 00:01:30.709 +00:00 [WRN] The foreign key property 'Ticket.BatchId1' was created in shadow state because a conflicting property with the simple name 'BatchId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-06-12 00:01:31.328 +00:00 [INF] Executed DbCommand (17ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='eventos_db' AND TABLE_NAME='__EFMigrationsHistory';
+2025-06-12 00:01:31.383 +00:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='eventos_db' AND TABLE_NAME='__EFMigrationsHistory';
+2025-06-12 00:01:31.407 +00:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT `MigrationId`, `ProductVersion`
+FROM `__EFMigrationsHistory`
+ORDER BY `MigrationId`;
+2025-06-12 00:01:31.422 +00:00 [INF] No migrations were applied. The database is already up to date.
+2025-06-12 00:01:31.601 +00:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM `Users` AS `u`)
+2025-06-12 00:01:31.745 +00:00 [WRN] Storing keys in a directory '/home/codespace/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+2025-06-12 00:01:31.746 +00:00 [INF] User profile is available. Using '/home/codespace/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-06-12 00:01:31.815 +00:00 [INF] Now listening on: http://localhost:5027
+2025-06-12 00:01:31.819 +00:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-06-12 00:01:31.819 +00:00 [INF] Hosting environment: Development
+2025-06-12 00:01:31.819 +00:00 [INF] Content root path: /workspaces/Site-eventos-SENAI/backend/EventosAPI.API
+2025-06-12 00:02:01.347 +00:00 [INF] Request starting HTTP/1.1 POST http://localhost:5027/api/v1/Auth/login - application/json 60
+2025-06-12 00:02:01.411 +00:00 [WRN] Failed to determine the https port for redirect.
+2025-06-12 00:02:01.416 +00:00 [INF] CORS policy execution successful.
+2025-06-12 00:02:01.478 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API)'
+2025-06-12 00:02:01.493 +00:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[EventosAPI.Application.DTOs.TokenResponseDto]] Login(EventosAPI.Application.DTOs.LoginDto) on controller EventosAPI.API.Controllers.v1.AuthController (EventosAPI.API).
+2025-06-12 00:02:01.810 +00:00 [INF] Executed DbCommand (34ms) [Parameters=[@__email_0='?' (Size = 150)], CommandType='"Text"', CommandTimeout='30']
+SELECT `u`.`Id`, `u`.`CreatedAt`, `u`.`Email`, `u`.`IsActive`, `u`.`Name`, `u`.`PasswordHash`, `u`.`Phone`, `u`.`Role`, `u`.`UpdatedAt`
+FROM `Users` AS `u`
+WHERE `u`.`Email` = @__email_0
+LIMIT 1
+2025-06-12 00:02:03.065 +00:00 [INF] Executing BadRequestObjectResult, writing value of type '<>f__AnonymousType2`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-06-12 00:02:03.082 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API) in 1585.0006ms
+2025-06-12 00:02:03.084 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API)'
+2025-06-12 00:02:03.091 +00:00 [INF] Request finished HTTP/1.1 POST http://localhost:5027/api/v1/Auth/login - 400 null application/json; charset=utf-8 1744.8397ms
+2025-06-12 00:02:19.585 +00:00 [INF] Request starting HTTP/1.1 POST http://localhost:5027/api/v1/Auth/login - application/json 60
+2025-06-12 00:02:19.589 +00:00 [INF] CORS policy execution successful.
+2025-06-12 00:02:19.593 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API)'
+2025-06-12 00:02:19.594 +00:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[EventosAPI.Application.DTOs.TokenResponseDto]] Login(EventosAPI.Application.DTOs.LoginDto) on controller EventosAPI.API.Controllers.v1.AuthController (EventosAPI.API).
+2025-06-12 00:02:51.881 +00:00 [INF] Executed DbCommand (30ms) [Parameters=[@__email_0='?' (Size = 150)], CommandType='"Text"', CommandTimeout='30']
+SELECT `u`.`Id`, `u`.`CreatedAt`, `u`.`Email`, `u`.`IsActive`, `u`.`Name`, `u`.`PasswordHash`, `u`.`Phone`, `u`.`Role`, `u`.`UpdatedAt`
+FROM `Users` AS `u`
+WHERE `u`.`Email` = @__email_0
+LIMIT 1
+2025-06-12 00:03:30.078 +00:00 [INF] Executing BadRequestObjectResult, writing value of type '<>f__AnonymousType2`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-06-12 00:03:30.083 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API) in 70485.0823ms
+2025-06-12 00:03:30.085 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API)'
+2025-06-12 00:03:30.090 +00:00 [INF] Request finished HTTP/1.1 POST http://localhost:5027/api/v1/Auth/login - 400 null application/json; charset=utf-8 70504.4208ms
+2025-06-12 00:04:32.778 +00:00 [INF] Iniciando a aplicação...
+2025-06-12 00:04:33.952 +00:00 [WRN] The foreign key property 'Ticket.BatchId1' was created in shadow state because a conflicting property with the simple name 'BatchId' exists in the entity type, but is either not mapped, is already used for another relationship, or is incompatible with the associated primary key type. See https://aka.ms/efcore-relationships for information on mapping relationships in EF Core.
+2025-06-12 00:04:34.811 +00:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='eventos_db' AND TABLE_NAME='__EFMigrationsHistory';
+2025-06-12 00:04:34.877 +00:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='eventos_db' AND TABLE_NAME='__EFMigrationsHistory';
+2025-06-12 00:04:34.934 +00:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT `MigrationId`, `ProductVersion`
+FROM `__EFMigrationsHistory`
+ORDER BY `MigrationId`;
+2025-06-12 00:04:34.972 +00:00 [INF] No migrations were applied. The database is already up to date.
+2025-06-12 00:04:35.501 +00:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT EXISTS (
+    SELECT 1
+    FROM `Users` AS `u`)
+2025-06-12 00:04:35.747 +00:00 [WRN] Storing keys in a directory '/home/codespace/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed. For more information go to https://aka.ms/aspnet/dataprotectionwarning
+2025-06-12 00:04:35.748 +00:00 [INF] User profile is available. Using '/home/codespace/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-06-12 00:04:35.843 +00:00 [INF] Now listening on: http://localhost:5027
+2025-06-12 00:04:35.849 +00:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-06-12 00:04:35.850 +00:00 [INF] Hosting environment: Development
+2025-06-12 00:04:35.851 +00:00 [INF] Content root path: /workspaces/Site-eventos-SENAI/backend/EventosAPI.API
+2025-06-12 00:04:47.185 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5027/ - null null
+2025-06-12 00:04:47.235 +00:00 [WRN] Failed to determine the https port for redirect.
+2025-06-12 00:04:47.294 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5027/ - 404 0 null 111.045ms
+2025-06-12 00:04:47.304 +00:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5027/, Response status code: 404
+2025-06-12 00:05:07.994 +00:00 [INF] Request starting HTTP/1.1 POST http://localhost:5027/api/v1/Auth/login - application/json 60
+2025-06-12 00:05:08.002 +00:00 [INF] CORS policy execution successful.
+2025-06-12 00:05:08.007 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API)'
+2025-06-12 00:05:08.025 +00:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[EventosAPI.Application.DTOs.TokenResponseDto]] Login(EventosAPI.Application.DTOs.LoginDto) on controller EventosAPI.API.Controllers.v1.AuthController (EventosAPI.API).
+2025-06-12 00:05:21.021 +00:00 [INF] Executed DbCommand (65ms) [Parameters=[@__email_0='?' (Size = 150)], CommandType='"Text"', CommandTimeout='30']
+SELECT `u`.`Id`, `u`.`CreatedAt`, `u`.`Email`, `u`.`IsActive`, `u`.`Name`, `u`.`PasswordHash`, `u`.`Phone`, `u`.`Role`, `u`.`UpdatedAt`
+FROM `Users` AS `u`
+WHERE `u`.`Email` = @__email_0
+LIMIT 1
+2025-06-12 00:05:28.539 +00:00 [INF] Executed DbCommand (10ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?' (Size = 256), @p4='?' (Size = 256), @p5='?' (DbType = DateTime), @p6='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO `RefreshTokens` (`Id`, `CreatedAt`, `ExpiryDate`, `ReplacedByToken`, `Token`, `UpdatedAt`, `UserId`)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+SELECT `IsRevoked`
+FROM `RefreshTokens`
+WHERE ROW_COUNT() = 1 AND `Id` = @p0;
+2025-06-12 00:05:33.073 +00:00 [INF] Executing OkObjectResult, writing value of type 'EventosAPI.Application.DTOs.TokenResponseDto'.
+2025-06-12 00:05:33.102 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API) in 25073.2165ms
+2025-06-12 00:05:33.102 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API)'
+2025-06-12 00:05:33.109 +00:00 [INF] Request finished HTTP/1.1 POST http://localhost:5027/api/v1/Auth/login - 200 null application/json; charset=utf-8 25115.1686ms
+2025-06-12 00:06:02.739 +00:00 [INF] Request starting HTTP/1.1 POST http://localhost:5027/api/v1/Auth/refresh-token - application/json 30
+2025-06-12 00:06:02.742 +00:00 [INF] CORS policy execution successful.
+2025-06-12 00:06:02.783 +00:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenSignatureKeyNotFoundException: IDX10517: Signature validation failed. The token's kid is missing. Keys tried: 'Microsoft.IdentityModel.Tokens.SymmetricSecurityKey, KeyId: '', InternalId: 'XSM4BiCaMHR33dM4N4vfjzaD3kYAiAblnmC3duCAb_Q'. , KeyId: 
+'. Number of keys in TokenValidationParameters: '1'. 
+Number of keys in Configuration: '0'. 
+Exceptions caught:
+ '[PII of type 'System.Text.StringBuilder' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+token: '[PII of type 'Microsoft.IdentityModel.JsonWebTokens.JsonWebToken' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'. See https://aka.ms/IDX10503 for details.
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateSignature(JsonWebToken jwtToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateSignatureAndIssuerSecurityKey(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-06-12 00:06:02.785 +00:00 [INF] Bearer was not authenticated. Failure message: IDX10517: Signature validation failed. The token's kid is missing. Keys tried: 'Microsoft.IdentityModel.Tokens.SymmetricSecurityKey, KeyId: '', InternalId: 'XSM4BiCaMHR33dM4N4vfjzaD3kYAiAblnmC3duCAb_Q'. , KeyId: 
+'. Number of keys in TokenValidationParameters: '1'. 
+Number of keys in Configuration: '0'. 
+Exceptions caught:
+ '[PII of type 'System.Text.StringBuilder' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+token: '[PII of type 'Microsoft.IdentityModel.JsonWebTokens.JsonWebToken' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'. See https://aka.ms/IDX10503 for details.
+2025-06-12 00:06:02.785 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.AuthController.RefreshToken (EventosAPI.API)'
+2025-06-12 00:06:02.790 +00:00 [INF] Route matched with {action = "RefreshToken", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[EventosAPI.Application.DTOs.TokenResponseDto]] RefreshToken(EventosAPI.Application.DTOs.RefreshTokenRequestDto) on controller EventosAPI.API.Controllers.v1.AuthController (EventosAPI.API).
+2025-06-12 00:06:02.933 +00:00 [INF] Executed DbCommand (24ms) [Parameters=[@__token_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT `r`.`Id`, `r`.`CreatedAt`, `r`.`ExpiryDate`, `r`.`IsRevoked`, `r`.`ReplacedByToken`, `r`.`Token`, `r`.`UpdatedAt`, `r`.`UserId`, `u`.`Id`, `u`.`CreatedAt`, `u`.`Email`, `u`.`IsActive`, `u`.`Name`, `u`.`PasswordHash`, `u`.`Phone`, `u`.`Role`, `u`.`UpdatedAt`
+FROM `RefreshTokens` AS `r`
+INNER JOIN `Users` AS `u` ON `r`.`UserId` = `u`.`Id`
+WHERE `r`.`Token` = @__token_0
+LIMIT 2
+2025-06-12 00:06:02.977 +00:00 [INF] Executing BadRequestObjectResult, writing value of type '<>f__AnonymousType2`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-06-12 00:06:02.980 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.AuthController.RefreshToken (EventosAPI.API) in 189.6472ms
+2025-06-12 00:06:02.980 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.AuthController.RefreshToken (EventosAPI.API)'
+2025-06-12 00:06:02.981 +00:00 [INF] Request finished HTTP/1.1 POST http://localhost:5027/api/v1/Auth/refresh-token - 400 null application/json; charset=utf-8 242.2276ms
+2025-06-12 00:06:51.225 +00:00 [INF] Request starting HTTP/1.1 POST http://localhost:5027/api/v1/Auth/refresh-token - application/json 112
+2025-06-12 00:06:51.229 +00:00 [INF] CORS policy execution successful.
+2025-06-12 00:06:51.243 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.AuthController.RefreshToken (EventosAPI.API)'
+2025-06-12 00:06:51.243 +00:00 [INF] Route matched with {action = "RefreshToken", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[EventosAPI.Application.DTOs.TokenResponseDto]] RefreshToken(EventosAPI.Application.DTOs.RefreshTokenRequestDto) on controller EventosAPI.API.Controllers.v1.AuthController (EventosAPI.API).
+2025-06-12 00:06:51.259 +00:00 [INF] Executed DbCommand (5ms) [Parameters=[@__token_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT `r`.`Id`, `r`.`CreatedAt`, `r`.`ExpiryDate`, `r`.`IsRevoked`, `r`.`ReplacedByToken`, `r`.`Token`, `r`.`UpdatedAt`, `r`.`UserId`, `u`.`Id`, `u`.`CreatedAt`, `u`.`Email`, `u`.`IsActive`, `u`.`Name`, `u`.`PasswordHash`, `u`.`Phone`, `u`.`Role`, `u`.`UpdatedAt`
+FROM `RefreshTokens` AS `r`
+INNER JOIN `Users` AS `u` ON `r`.`UserId` = `u`.`Id`
+WHERE `r`.`Token` = @__token_0
+LIMIT 2
+2025-06-12 00:06:51.424 +00:00 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?' (Size = 256), @p4='?' (Size = 256), @p5='?' (DbType = DateTime), @p6='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO `RefreshTokens` (`Id`, `CreatedAt`, `ExpiryDate`, `ReplacedByToken`, `Token`, `UpdatedAt`, `UserId`)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+SELECT `IsRevoked`
+FROM `RefreshTokens`
+WHERE ROW_COUNT() = 1 AND `Id` = @p0;
+2025-06-12 00:06:51.461 +00:00 [INF] Executed DbCommand (24ms) [Parameters=[@__token_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT `r`.`Id`, `r`.`CreatedAt`, `r`.`ExpiryDate`, `r`.`IsRevoked`, `r`.`ReplacedByToken`, `r`.`Token`, `r`.`UpdatedAt`, `r`.`UserId`
+FROM `RefreshTokens` AS `r`
+WHERE `r`.`Token` = @__token_0
+LIMIT 2
+2025-06-12 00:06:51.495 +00:00 [INF] Executed DbCommand (25ms) [Parameters=[@p2='?' (DbType = Guid), @p0='?' (DbType = Boolean), @p1='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+SET AUTOCOMMIT = 1;
+UPDATE `RefreshTokens` SET `IsRevoked` = @p0, `UpdatedAt` = @p1
+WHERE `Id` = @p2;
+SELECT ROW_COUNT();
+2025-06-12 00:06:51.520 +00:00 [INF] Executing OkObjectResult, writing value of type 'EventosAPI.Application.DTOs.TokenResponseDto'.
+2025-06-12 00:06:51.521 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.AuthController.RefreshToken (EventosAPI.API) in 277.3825ms
+2025-06-12 00:06:51.521 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.AuthController.RefreshToken (EventosAPI.API)'
+2025-06-12 00:06:51.522 +00:00 [INF] Request finished HTTP/1.1 POST http://localhost:5027/api/v1/Auth/refresh-token - 200 null application/json; charset=utf-8 296.6899ms
+2025-06-12 00:07:18.948 +00:00 [INF] Request starting HTTP/1.1 POST http://localhost:5027/api/v1/Auth/revoke-token - application/json 112
+2025-06-12 00:07:18.949 +00:00 [INF] CORS policy execution successful.
+2025-06-12 00:07:18.957 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.AuthController.RevokeToken (EventosAPI.API)'
+2025-06-12 00:07:18.960 +00:00 [INF] Route matched with {action = "RevokeToken", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] RevokeToken(EventosAPI.Application.DTOs.RevokeTokenRequestDto) on controller EventosAPI.API.Controllers.v1.AuthController (EventosAPI.API).
+2025-06-12 00:07:18.970 +00:00 [INF] Executed DbCommand (3ms) [Parameters=[@__token_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT `r`.`Id`, `r`.`CreatedAt`, `r`.`ExpiryDate`, `r`.`IsRevoked`, `r`.`ReplacedByToken`, `r`.`Token`, `r`.`UpdatedAt`, `r`.`UserId`
+FROM `RefreshTokens` AS `r`
+WHERE `r`.`Token` = @__token_0
+LIMIT 2
+2025-06-12 00:07:19.001 +00:00 [INF] Executed DbCommand (4ms) [Parameters=[@p2='?' (DbType = Guid), @p0='?' (DbType = Boolean), @p1='?' (DbType = DateTime)], CommandType='"Text"', CommandTimeout='30']
+SET AUTOCOMMIT = 1;
+UPDATE `RefreshTokens` SET `IsRevoked` = @p0, `UpdatedAt` = @p1
+WHERE `Id` = @p2;
+SELECT ROW_COUNT();
+2025-06-12 00:07:19.003 +00:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType2`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-06-12 00:07:19.003 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.AuthController.RevokeToken (EventosAPI.API) in 43.0175ms
+2025-06-12 00:07:19.004 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.AuthController.RevokeToken (EventosAPI.API)'
+2025-06-12 00:07:19.005 +00:00 [INF] Request finished HTTP/1.1 POST http://localhost:5027/api/v1/Auth/revoke-token - 200 null application/json; charset=utf-8 56.3232ms
+2025-06-12 00:07:27.136 +00:00 [INF] Request starting HTTP/1.1 POST http://localhost:5027/api/v1/Auth/refresh-token - application/json 112
+2025-06-12 00:07:27.136 +00:00 [INF] CORS policy execution successful.
+2025-06-12 00:07:27.137 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.AuthController.RefreshToken (EventosAPI.API)'
+2025-06-12 00:07:27.137 +00:00 [INF] Route matched with {action = "RefreshToken", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[EventosAPI.Application.DTOs.TokenResponseDto]] RefreshToken(EventosAPI.Application.DTOs.RefreshTokenRequestDto) on controller EventosAPI.API.Controllers.v1.AuthController (EventosAPI.API).
+2025-06-12 00:07:27.167 +00:00 [INF] Executed DbCommand (24ms) [Parameters=[@__token_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT `r`.`Id`, `r`.`CreatedAt`, `r`.`ExpiryDate`, `r`.`IsRevoked`, `r`.`ReplacedByToken`, `r`.`Token`, `r`.`UpdatedAt`, `r`.`UserId`, `u`.`Id`, `u`.`CreatedAt`, `u`.`Email`, `u`.`IsActive`, `u`.`Name`, `u`.`PasswordHash`, `u`.`Phone`, `u`.`Role`, `u`.`UpdatedAt`
+FROM `RefreshTokens` AS `r`
+INNER JOIN `Users` AS `u` ON `r`.`UserId` = `u`.`Id`
+WHERE `r`.`Token` = @__token_0
+LIMIT 2
+2025-06-12 00:07:27.169 +00:00 [INF] Executing BadRequestObjectResult, writing value of type '<>f__AnonymousType2`1[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-06-12 00:07:27.171 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.AuthController.RefreshToken (EventosAPI.API) in 34.1052ms
+2025-06-12 00:07:27.171 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.AuthController.RefreshToken (EventosAPI.API)'
+2025-06-12 00:07:27.171 +00:00 [INF] Request finished HTTP/1.1 POST http://localhost:5027/api/v1/Auth/refresh-token - 400 null application/json; charset=utf-8 35.5888ms
+2025-06-12 00:07:30.965 +00:00 [INF] Request starting HTTP/1.1 POST http://localhost:5027/api/v1/Auth/login - application/json 60
+2025-06-12 00:07:30.967 +00:00 [INF] CORS policy execution successful.
+2025-06-12 00:07:30.968 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API)'
+2025-06-12 00:07:30.968 +00:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[EventosAPI.Application.DTOs.TokenResponseDto]] Login(EventosAPI.Application.DTOs.LoginDto) on controller EventosAPI.API.Controllers.v1.AuthController (EventosAPI.API).
+2025-06-12 00:07:31.004 +00:00 [INF] Executed DbCommand (27ms) [Parameters=[@__email_0='?' (Size = 150)], CommandType='"Text"', CommandTimeout='30']
+SELECT `u`.`Id`, `u`.`CreatedAt`, `u`.`Email`, `u`.`IsActive`, `u`.`Name`, `u`.`PasswordHash`, `u`.`Phone`, `u`.`Role`, `u`.`UpdatedAt`
+FROM `Users` AS `u`
+WHERE `u`.`Email` = @__email_0
+LIMIT 1
+2025-06-12 00:07:31.373 +00:00 [INF] Executed DbCommand (24ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?' (Size = 256), @p4='?' (Size = 256), @p5='?' (DbType = DateTime), @p6='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO `RefreshTokens` (`Id`, `CreatedAt`, `ExpiryDate`, `ReplacedByToken`, `Token`, `UpdatedAt`, `UserId`)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+SELECT `IsRevoked`
+FROM `RefreshTokens`
+WHERE ROW_COUNT() = 1 AND `Id` = @p0;
+2025-06-12 00:07:31.382 +00:00 [INF] Executing OkObjectResult, writing value of type 'EventosAPI.Application.DTOs.TokenResponseDto'.
+2025-06-12 00:07:31.383 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API) in 414.1256ms
+2025-06-12 00:07:31.383 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API)'
+2025-06-12 00:07:31.385 +00:00 [INF] Request finished HTTP/1.1 POST http://localhost:5027/api/v1/Auth/login - 200 null application/json; charset=utf-8 419.3736ms
+2025-06-12 00:07:32.873 +00:00 [INF] Request starting HTTP/1.1 POST http://localhost:5027/api/v1/Auth/login - application/json 60
+2025-06-12 00:07:32.873 +00:00 [INF] CORS policy execution successful.
+2025-06-12 00:07:32.874 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API)'
+2025-06-12 00:07:32.874 +00:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[EventosAPI.Application.DTOs.TokenResponseDto]] Login(EventosAPI.Application.DTOs.LoginDto) on controller EventosAPI.API.Controllers.v1.AuthController (EventosAPI.API).
+2025-06-12 00:07:32.885 +00:00 [INF] Executed DbCommand (4ms) [Parameters=[@__email_0='?' (Size = 150)], CommandType='"Text"', CommandTimeout='30']
+SELECT `u`.`Id`, `u`.`CreatedAt`, `u`.`Email`, `u`.`IsActive`, `u`.`Name`, `u`.`PasswordHash`, `u`.`Phone`, `u`.`Role`, `u`.`UpdatedAt`
+FROM `Users` AS `u`
+WHERE `u`.`Email` = @__email_0
+LIMIT 1
+2025-06-12 00:07:33.277 +00:00 [INF] Executed DbCommand (7ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?' (Size = 256), @p4='?' (Size = 256), @p5='?' (DbType = DateTime), @p6='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO `RefreshTokens` (`Id`, `CreatedAt`, `ExpiryDate`, `ReplacedByToken`, `Token`, `UpdatedAt`, `UserId`)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+SELECT `IsRevoked`
+FROM `RefreshTokens`
+WHERE ROW_COUNT() = 1 AND `Id` = @p0;
+2025-06-12 00:07:33.291 +00:00 [INF] Executing OkObjectResult, writing value of type 'EventosAPI.Application.DTOs.TokenResponseDto'.
+2025-06-12 00:07:33.295 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API) in 419.6564ms
+2025-06-12 00:07:33.297 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API)'
+2025-06-12 00:07:33.299 +00:00 [INF] Request finished HTTP/1.1 POST http://localhost:5027/api/v1/Auth/login - 200 null application/json; charset=utf-8 426.0156ms
+2025-06-12 00:07:36.538 +00:00 [INF] Request starting HTTP/1.1 POST http://localhost:5027/api/v1/Auth/login - application/json 60
+2025-06-12 00:07:36.538 +00:00 [INF] CORS policy execution successful.
+2025-06-12 00:07:36.539 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API)'
+2025-06-12 00:07:36.539 +00:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[EventosAPI.Application.DTOs.TokenResponseDto]] Login(EventosAPI.Application.DTOs.LoginDto) on controller EventosAPI.API.Controllers.v1.AuthController (EventosAPI.API).
+2025-06-12 00:07:36.547 +00:00 [INF] Executed DbCommand (5ms) [Parameters=[@__email_0='?' (Size = 150)], CommandType='"Text"', CommandTimeout='30']
+SELECT `u`.`Id`, `u`.`CreatedAt`, `u`.`Email`, `u`.`IsActive`, `u`.`Name`, `u`.`PasswordHash`, `u`.`Phone`, `u`.`Role`, `u`.`UpdatedAt`
+FROM `Users` AS `u`
+WHERE `u`.`Email` = @__email_0
+LIMIT 1
+2025-06-12 00:07:36.912 +00:00 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?' (Size = 256), @p4='?' (Size = 256), @p5='?' (DbType = DateTime), @p6='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO `RefreshTokens` (`Id`, `CreatedAt`, `ExpiryDate`, `ReplacedByToken`, `Token`, `UpdatedAt`, `UserId`)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+SELECT `IsRevoked`
+FROM `RefreshTokens`
+WHERE ROW_COUNT() = 1 AND `Id` = @p0;
+2025-06-12 00:07:36.920 +00:00 [INF] Executing OkObjectResult, writing value of type 'EventosAPI.Application.DTOs.TokenResponseDto'.
+2025-06-12 00:07:36.921 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API) in 381.4373ms
+2025-06-12 00:07:36.921 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API)'
+2025-06-12 00:07:36.923 +00:00 [INF] Request finished HTTP/1.1 POST http://localhost:5027/api/v1/Auth/login - 200 null application/json; charset=utf-8 385.0075ms
+2025-06-12 00:07:38.798 +00:00 [INF] Request starting HTTP/1.1 POST http://localhost:5027/api/v1/Auth/login - application/json 60
+2025-06-12 00:07:38.799 +00:00 [INF] CORS policy execution successful.
+2025-06-12 00:07:38.800 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API)'
+2025-06-12 00:07:38.801 +00:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[EventosAPI.Application.DTOs.TokenResponseDto]] Login(EventosAPI.Application.DTOs.LoginDto) on controller EventosAPI.API.Controllers.v1.AuthController (EventosAPI.API).
+2025-06-12 00:07:38.812 +00:00 [INF] Executed DbCommand (4ms) [Parameters=[@__email_0='?' (Size = 150)], CommandType='"Text"', CommandTimeout='30']
+SELECT `u`.`Id`, `u`.`CreatedAt`, `u`.`Email`, `u`.`IsActive`, `u`.`Name`, `u`.`PasswordHash`, `u`.`Phone`, `u`.`Role`, `u`.`UpdatedAt`
+FROM `Users` AS `u`
+WHERE `u`.`Email` = @__email_0
+LIMIT 1
+2025-06-12 00:07:39.129 +00:00 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime), @p2='?' (DbType = DateTime), @p3='?' (Size = 256), @p4='?' (Size = 256), @p5='?' (DbType = DateTime), @p6='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO `RefreshTokens` (`Id`, `CreatedAt`, `ExpiryDate`, `ReplacedByToken`, `Token`, `UpdatedAt`, `UserId`)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6);
+SELECT `IsRevoked`
+FROM `RefreshTokens`
+WHERE ROW_COUNT() = 1 AND `Id` = @p0;
+2025-06-12 00:07:39.138 +00:00 [INF] Executing OkObjectResult, writing value of type 'EventosAPI.Application.DTOs.TokenResponseDto'.
+2025-06-12 00:07:39.139 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API) in 337.0215ms
+2025-06-12 00:07:39.140 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.AuthController.Login (EventosAPI.API)'
+2025-06-12 00:07:39.140 +00:00 [INF] Request finished HTTP/1.1 POST http://localhost:5027/api/v1/Auth/login - 200 null application/json; charset=utf-8 341.9771ms
+2025-06-12 00:09:15.023 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5027/api/v1/Events - null null
+2025-06-12 00:09:15.025 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.EventsController.GetAll (EventosAPI.API)'
+2025-06-12 00:09:15.028 +00:00 [INF] Route matched with {action = "GetAll", controller = "Events"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller EventosAPI.API.Controllers.v1.EventsController (EventosAPI.API).
+2025-06-12 00:09:15.047 +00:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT `e`.`Id`, `e`.`Category`, `e`.`CreatedAt`, `e`.`Description`, `e`.`EndDate`, `e`.`EventDate`, `e`.`ImageUrl`, `e`.`IsActive`, `e`.`Location`, `e`.`MaxParticipants`, `e`.`Name`, `e`.`OrganizerId`, `e`.`UpdatedAt`
+FROM `Events` AS `e`
+2025-06-12 00:09:15.143 +00:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-06-12 00:09:15.186 +00:00 [INF] Executed DbCommand (10ms) [Parameters=[@__eventId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT `t`.`Id`, `t`.`Category`, `t`.`CreatedAt`, `t`.`Description`, `t`.`EndDate`, `t`.`EventDate`, `t`.`ImageUrl`, `t`.`IsActive`, `t`.`Location`, `t`.`MaxParticipants`, `t`.`Name`, `t`.`OrganizerId`, `t`.`UpdatedAt`, `t0`.`Id`, `t0`.`CreatedAt`, `t0`.`EndDate`, `t0`.`EventId`, `t0`.`IsActive`, `t0`.`Name`, `t0`.`StartDate`, `t0`.`Stock`, `t0`.`TotalQuantity`, `t0`.`Type`, `t0`.`UnitPrice`, `t0`.`UpdatedAt`, `t0`.`Id0`, `t0`.`BatchId`, `t0`.`BatchId1`, `t0`.`CreatedAt0`, `t0`.`IsActive0`, `t0`.`OrderId`, `t0`.`Price`, `t0`.`QRCode`, `t0`.`Status`, `t0`.`Type0`, `t0`.`UpdatedAt0`, `t0`.`UsedAt`, `t0`.`UserId`
+FROM (
+    SELECT `e`.`Id`, `e`.`Category`, `e`.`CreatedAt`, `e`.`Description`, `e`.`EndDate`, `e`.`EventDate`, `e`.`ImageUrl`, `e`.`IsActive`, `e`.`Location`, `e`.`MaxParticipants`, `e`.`Name`, `e`.`OrganizerId`, `e`.`UpdatedAt`
+    FROM `Events` AS `e`
+    WHERE `e`.`Id` = @__eventId_0
+    LIMIT 1
+) AS `t`
+LEFT JOIN (
+    SELECT `b`.`Id`, `b`.`CreatedAt`, `b`.`EndDate`, `b`.`EventId`, `b`.`IsActive`, `b`.`Name`, `b`.`StartDate`, `b`.`Stock`, `b`.`TotalQuantity`, `b`.`Type`, `b`.`UnitPrice`, `b`.`UpdatedAt`, `t1`.`Id` AS `Id0`, `t1`.`BatchId`, `t1`.`BatchId1`, `t1`.`CreatedAt` AS `CreatedAt0`, `t1`.`IsActive` AS `IsActive0`, `t1`.`OrderId`, `t1`.`Price`, `t1`.`QRCode`, `t1`.`Status`, `t1`.`Type` AS `Type0`, `t1`.`UpdatedAt` AS `UpdatedAt0`, `t1`.`UsedAt`, `t1`.`UserId`
+    FROM `Batches` AS `b`
+    LEFT JOIN `Tickets` AS `t1` ON `b`.`Id` = `t1`.`BatchId1`
+) AS `t0` ON `t`.`Id` = `t0`.`EventId`
+ORDER BY `t`.`Id`, `t0`.`Id`
+2025-06-12 00:09:15.214 +00:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`2[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-06-12 00:09:15.229 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.EventsController.GetAll (EventosAPI.API) in 200.0621ms
+2025-06-12 00:09:15.229 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.EventsController.GetAll (EventosAPI.API)'
+2025-06-12 00:09:15.229 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5027/api/v1/Events - 200 null application/json; charset=utf-8 206.6162ms
+2025-06-12 00:09:21.951 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5027/api/v1/Events - null null
+2025-06-12 00:09:21.952 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.EventsController.GetAll (EventosAPI.API)'
+2025-06-12 00:09:21.952 +00:00 [INF] Route matched with {action = "GetAll", controller = "Events"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller EventosAPI.API.Controllers.v1.EventsController (EventosAPI.API).
+2025-06-12 00:09:21.957 +00:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT `e`.`Id`, `e`.`Category`, `e`.`CreatedAt`, `e`.`Description`, `e`.`EndDate`, `e`.`EventDate`, `e`.`ImageUrl`, `e`.`IsActive`, `e`.`Location`, `e`.`MaxParticipants`, `e`.`Name`, `e`.`OrganizerId`, `e`.`UpdatedAt`
+FROM `Events` AS `e`
+2025-06-12 00:09:21.987 +00:00 [INF] Executed DbCommand (24ms) [Parameters=[@__eventId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT `t`.`Id`, `t`.`Category`, `t`.`CreatedAt`, `t`.`Description`, `t`.`EndDate`, `t`.`EventDate`, `t`.`ImageUrl`, `t`.`IsActive`, `t`.`Location`, `t`.`MaxParticipants`, `t`.`Name`, `t`.`OrganizerId`, `t`.`UpdatedAt`, `t0`.`Id`, `t0`.`CreatedAt`, `t0`.`EndDate`, `t0`.`EventId`, `t0`.`IsActive`, `t0`.`Name`, `t0`.`StartDate`, `t0`.`Stock`, `t0`.`TotalQuantity`, `t0`.`Type`, `t0`.`UnitPrice`, `t0`.`UpdatedAt`, `t0`.`Id0`, `t0`.`BatchId`, `t0`.`BatchId1`, `t0`.`CreatedAt0`, `t0`.`IsActive0`, `t0`.`OrderId`, `t0`.`Price`, `t0`.`QRCode`, `t0`.`Status`, `t0`.`Type0`, `t0`.`UpdatedAt0`, `t0`.`UsedAt`, `t0`.`UserId`
+FROM (
+    SELECT `e`.`Id`, `e`.`Category`, `e`.`CreatedAt`, `e`.`Description`, `e`.`EndDate`, `e`.`EventDate`, `e`.`ImageUrl`, `e`.`IsActive`, `e`.`Location`, `e`.`MaxParticipants`, `e`.`Name`, `e`.`OrganizerId`, `e`.`UpdatedAt`
+    FROM `Events` AS `e`
+    WHERE `e`.`Id` = @__eventId_0
+    LIMIT 1
+) AS `t`
+LEFT JOIN (
+    SELECT `b`.`Id`, `b`.`CreatedAt`, `b`.`EndDate`, `b`.`EventId`, `b`.`IsActive`, `b`.`Name`, `b`.`StartDate`, `b`.`Stock`, `b`.`TotalQuantity`, `b`.`Type`, `b`.`UnitPrice`, `b`.`UpdatedAt`, `t1`.`Id` AS `Id0`, `t1`.`BatchId`, `t1`.`BatchId1`, `t1`.`CreatedAt` AS `CreatedAt0`, `t1`.`IsActive` AS `IsActive0`, `t1`.`OrderId`, `t1`.`Price`, `t1`.`QRCode`, `t1`.`Status`, `t1`.`Type` AS `Type0`, `t1`.`UpdatedAt` AS `UpdatedAt0`, `t1`.`UsedAt`, `t1`.`UserId`
+    FROM `Batches` AS `b`
+    LEFT JOIN `Tickets` AS `t1` ON `b`.`Id` = `t1`.`BatchId1`
+) AS `t0` ON `t`.`Id` = `t0`.`EventId`
+ORDER BY `t`.`Id`, `t0`.`Id`
+2025-06-12 00:09:21.988 +00:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`2[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-06-12 00:09:21.991 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.EventsController.GetAll (EventosAPI.API) in 38.8052ms
+2025-06-12 00:09:21.991 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.EventsController.GetAll (EventosAPI.API)'
+2025-06-12 00:09:21.991 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5027/api/v1/Events - 200 null application/json; charset=utf-8 40.978ms
+2025-06-12 00:09:30.771 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5027/api/v1/Events/active - null null
+2025-06-12 00:09:30.772 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.EventsController.GetActiveEvents (EventosAPI.API)'
+2025-06-12 00:09:30.776 +00:00 [INF] Route matched with {action = "GetActiveEvents", controller = "Events"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetActiveEvents() on controller EventosAPI.API.Controllers.v1.EventsController (EventosAPI.API).
+2025-06-12 00:09:30.802 +00:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-06-12 00:09:30.856 +00:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT `e`.`Id`, `e`.`Category`, `e`.`CreatedAt`, `e`.`Description`, `e`.`EndDate`, `e`.`EventDate`, `e`.`ImageUrl`, `e`.`IsActive`, `e`.`Location`, `e`.`MaxParticipants`, `e`.`Name`, `e`.`OrganizerId`, `e`.`UpdatedAt`, `t0`.`Id`, `t0`.`CreatedAt`, `t0`.`EndDate`, `t0`.`EventId`, `t0`.`IsActive`, `t0`.`Name`, `t0`.`StartDate`, `t0`.`Stock`, `t0`.`TotalQuantity`, `t0`.`Type`, `t0`.`UnitPrice`, `t0`.`UpdatedAt`, `t0`.`Id0`, `t0`.`BatchId`, `t0`.`BatchId1`, `t0`.`CreatedAt0`, `t0`.`IsActive0`, `t0`.`OrderId`, `t0`.`Price`, `t0`.`QRCode`, `t0`.`Status`, `t0`.`Type0`, `t0`.`UpdatedAt0`, `t0`.`UsedAt`, `t0`.`UserId`
+FROM `Events` AS `e`
+LEFT JOIN (
+    SELECT `b`.`Id`, `b`.`CreatedAt`, `b`.`EndDate`, `b`.`EventId`, `b`.`IsActive`, `b`.`Name`, `b`.`StartDate`, `b`.`Stock`, `b`.`TotalQuantity`, `b`.`Type`, `b`.`UnitPrice`, `b`.`UpdatedAt`, `t`.`Id` AS `Id0`, `t`.`BatchId`, `t`.`BatchId1`, `t`.`CreatedAt` AS `CreatedAt0`, `t`.`IsActive` AS `IsActive0`, `t`.`OrderId`, `t`.`Price`, `t`.`QRCode`, `t`.`Status`, `t`.`Type` AS `Type0`, `t`.`UpdatedAt` AS `UpdatedAt0`, `t`.`UsedAt`, `t`.`UserId`
+    FROM `Batches` AS `b`
+    LEFT JOIN `Tickets` AS `t` ON `b`.`Id` = `t`.`BatchId1`
+) AS `t0` ON `e`.`Id` = `t0`.`EventId`
+WHERE `e`.`IsActive` AND (`e`.`EndDate` >= UTC_TIMESTAMP())
+ORDER BY `e`.`Id`, `t0`.`Id`
+2025-06-12 00:09:30.885 +00:00 [INF] Executed DbCommand (4ms) [Parameters=[@__eventId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT `t`.`Id`, `t`.`Category`, `t`.`CreatedAt`, `t`.`Description`, `t`.`EndDate`, `t`.`EventDate`, `t`.`ImageUrl`, `t`.`IsActive`, `t`.`Location`, `t`.`MaxParticipants`, `t`.`Name`, `t`.`OrganizerId`, `t`.`UpdatedAt`, `t0`.`Id`, `t0`.`CreatedAt`, `t0`.`EndDate`, `t0`.`EventId`, `t0`.`IsActive`, `t0`.`Name`, `t0`.`StartDate`, `t0`.`Stock`, `t0`.`TotalQuantity`, `t0`.`Type`, `t0`.`UnitPrice`, `t0`.`UpdatedAt`, `t0`.`Id0`, `t0`.`BatchId`, `t0`.`BatchId1`, `t0`.`CreatedAt0`, `t0`.`IsActive0`, `t0`.`OrderId`, `t0`.`Price`, `t0`.`QRCode`, `t0`.`Status`, `t0`.`Type0`, `t0`.`UpdatedAt0`, `t0`.`UsedAt`, `t0`.`UserId`
+FROM (
+    SELECT `e`.`Id`, `e`.`Category`, `e`.`CreatedAt`, `e`.`Description`, `e`.`EndDate`, `e`.`EventDate`, `e`.`ImageUrl`, `e`.`IsActive`, `e`.`Location`, `e`.`MaxParticipants`, `e`.`Name`, `e`.`OrganizerId`, `e`.`UpdatedAt`
+    FROM `Events` AS `e`
+    WHERE `e`.`Id` = @__eventId_0
+    LIMIT 1
+) AS `t`
+LEFT JOIN (
+    SELECT `b`.`Id`, `b`.`CreatedAt`, `b`.`EndDate`, `b`.`EventId`, `b`.`IsActive`, `b`.`Name`, `b`.`StartDate`, `b`.`Stock`, `b`.`TotalQuantity`, `b`.`Type`, `b`.`UnitPrice`, `b`.`UpdatedAt`, `t1`.`Id` AS `Id0`, `t1`.`BatchId`, `t1`.`BatchId1`, `t1`.`CreatedAt` AS `CreatedAt0`, `t1`.`IsActive` AS `IsActive0`, `t1`.`OrderId`, `t1`.`Price`, `t1`.`QRCode`, `t1`.`Status`, `t1`.`Type` AS `Type0`, `t1`.`UpdatedAt` AS `UpdatedAt0`, `t1`.`UsedAt`, `t1`.`UserId`
+    FROM `Batches` AS `b`
+    LEFT JOIN `Tickets` AS `t1` ON `b`.`Id` = `t1`.`BatchId1`
+) AS `t0` ON `t`.`Id` = `t0`.`EventId`
+ORDER BY `t`.`Id`, `t0`.`Id`
+2025-06-12 00:09:30.886 +00:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`2[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-06-12 00:09:30.886 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.EventsController.GetActiveEvents (EventosAPI.API) in 110.1489ms
+2025-06-12 00:09:30.888 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.EventsController.GetActiveEvents (EventosAPI.API)'
+2025-06-12 00:09:30.889 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5027/api/v1/Events/active - 200 null application/json; charset=utf-8 117.6774ms
+2025-06-12 00:09:53.219 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5027/api/v1/Users/me - null null
+2025-06-12 00:09:53.223 +00:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-06-12 00:09:53.228 +00:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-06-12 00:09:53.229 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5027/api/v1/Users/me - 401 0 null 10.5229ms
+2025-06-12 00:10:09.867 +00:00 [INF] Request starting HTTP/1.1 GET http://localhost:5027/api/v1/Users/me - null null
+2025-06-12 00:10:09.872 +00:00 [INF] Executing endpoint 'EventosAPI.API.Controllers.v1.UsersController.GetCurrentUser (EventosAPI.API)'
+2025-06-12 00:10:09.875 +00:00 [INF] Route matched with {action = "GetCurrentUser", controller = "Users"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCurrentUser() on controller EventosAPI.API.Controllers.v1.UsersController (EventosAPI.API).
+2025-06-12 00:10:09.902 +00:00 [INF] Executing ObjectResult, writing value of type '<>f__AnonymousType1`2[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-06-12 00:10:09.907 +00:00 [INF] Executed action EventosAPI.API.Controllers.v1.UsersController.GetCurrentUser (EventosAPI.API) in 30.583ms
+2025-06-12 00:10:09.907 +00:00 [INF] Executed endpoint 'EventosAPI.API.Controllers.v1.UsersController.GetCurrentUser (EventosAPI.API)'
+2025-06-12 00:10:09.907 +00:00 [INF] Request finished HTTP/1.1 GET http://localhost:5027/api/v1/Users/me - 400 null application/json; charset=utf-8 39.7833ms
