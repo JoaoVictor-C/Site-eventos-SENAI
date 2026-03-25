@@ -78,20 +78,20 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 
 ## Configuration Problems
 
-- [ ] Rate limiting config keys don’t match code:
+- [x] Rate limiting config keys don’t match code:
 - [ ] Code uses `RateLimiting:WindowSeconds` in `Backend/EventosAPI.API/Extensions/RateLimitingExtensions.cs`.
 - [ ] Config uses `"Window": 60` in `Backend/EventosAPI.API/appsettings.json`.
-- [ ] Align keys and naming.
+- [x] Aligned config keys with code (`WindowSeconds`, etc.).
 
-- [ ] JWT expiry config mismatch:
+- [x] JWT expiry config mismatch:
 - [ ] `Backend/EventosAPI.Infrastructure/Security/TokenService.cs` reads `Jwt:ExpiresInHours`.
 - [ ] `Backend/EventosAPI.API/appsettings.Development.json` uses `Jwt:ExpiryInMinutes`.
-- [ ] Standardize one key + unit.
+- [x] Standardized on `Jwt:ExpiresInHours`.
 
-- [ ] CORS config is defined but ignored:
+- [x] CORS config is defined but ignored:
 - [ ] `Backend/EventosAPI.API/appsettings.json` has `"Cors": { "AllowedOrigins": [...] }`.
 - [ ] `Backend/EventosAPI.API/Program.cs` hard-codes `WithOrigins("http://localhost:3000")`.
-- [ ] Bind from configuration.
+- [x] Bound CORS allowed origins from configuration (`Cors:AllowedOrigins`).
 
 ## Data Layer / EF Core / Repository Issues
 
@@ -167,6 +167,6 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 4. [ ] Decide + implement a consistent event-role model (storage + queries + controller behaviors).
 5. [x] Break DTO cycles, remove `ReferenceHandler.Preserve`, and stabilize response contracts.
 6. [x] Add transactions around reserve/purchase flows, fix route/body mismatch, and harden consistency.
-7. [ ] Fix config mismatches (rate limiting, JWT expiry, CORS).
+7. [x] Fix config mismatches (rate limiting, JWT expiry, CORS).
 8. [ ] Repo hygiene cleanup + delete dead files + fix encoding/mojibake.
 9. [ ] Dependency upgrades (AutoMapper vulnerability, other updates) and rebuild.
