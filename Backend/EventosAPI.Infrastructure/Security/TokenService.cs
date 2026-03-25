@@ -13,6 +13,9 @@ namespace EventosAPI.Infrastructure.Security
 {
     public class TokenService : ITokenService
     {
+        private const string ReauthPurposeClaim = "reauth_purpose";
+        private const string ReauthTokenTypeClaim = "reauth";
+
         private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _context;
 
@@ -50,6 +53,84 @@ namespace EventosAPI.Infrastructure.Security
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public string GenerateReauthToken(Guid userId, string purpose, int expiresInMinutes = 5)
+        {
+            if (string.IsNullOrWhiteSpace(purpose))
+                throw new ArgumentException("Purpose is required", nameof(purpose));
+
+            var jwtKey = _configuration["Jwt:Key"] ??
+                throw new ArgumentNullException("Jwt:Key", "JWT Key configuration is missing");
+            var jwtIssuer = _configuration["Jwt:Issuer"] ??
+                throw new ArgumentNullException("Jwt:Issuer", "JWT Issuer configuration is missing");
+            var jwtAudience = _configuration["Jwt:Audience"] ??
+                throw new ArgumentNullException("Jwt:Audience", "JWT Audience configuration is missing");
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+                new Claim(ReauthPurposeClaim, purpose),
+                new Claim("typ", ReauthTokenTypeClaim),
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: jwtIssuer,
+                audience: jwtAudience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(expiresInMinutes),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public ClaimsPrincipal? ValidateReauthToken(string token, string expectedPurpose)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                return null;
+
+            var jwtKey = _configuration["Jwt:Key"] ??
+                throw new ArgumentNullException("Jwt:Key", "JWT Key configuration is missing");
+            var jwtIssuer = _configuration["Jwt:Issuer"] ??
+                throw new ArgumentNullException("Jwt:Issuer", "JWT Issuer configuration is missing");
+            var jwtAudience = _configuration["Jwt:Audience"] ??
+                throw new ArgumentNullException("Jwt:Audience", "JWT Audience configuration is missing");
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtIssuer,
+                ValidAudience = jwtAudience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+                ClockSkew = TimeSpan.Zero
+            };
+
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var principal = handler.ValidateToken(token, tokenValidationParameters, out _);
+
+                var purpose = principal.FindFirstValue(ReauthPurposeClaim);
+                if (!string.Equals(purpose, expectedPurpose, StringComparison.Ordinal))
+                    return null;
+
+                var typ = principal.FindFirstValue("typ");
+                if (!string.Equals(typ, ReauthTokenTypeClaim, StringComparison.Ordinal))
+                    return null;
+
+                return principal;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public string GenerateRefreshToken()

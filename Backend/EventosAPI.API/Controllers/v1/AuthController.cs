@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using EventosAPI.Application.DTOs;
 using EventosAPI.Application.Interfaces;
 using EventosAPI.Domain.Interfaces.Services;
@@ -14,11 +15,13 @@ namespace EventosAPI.API.Controllers.v1
     {
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(IUserService userService, ITokenService tokenService)
+        public AuthController(IUserService userService, ITokenService tokenService, IConfiguration configuration)
         {
             _userService = userService;
             _tokenService = tokenService;
+            _configuration = configuration;
         }
 
         [HttpPost("login")]
@@ -75,6 +78,29 @@ namespace EventosAPI.API.Controllers.v1
                 throw new NotFoundException("RefreshToken", request.RefreshToken);
 
             return HandleSuccess<object>(null, "Token revoked");
+        }
+
+        // Re-auth step for sensitive operations (e.g., 2FA setup). Requires the user's password.
+        [HttpPost("reauth/2fa")]
+        [Authorize]
+        public async Task<IActionResult> ReauthForTwoFactor([FromBody] ReauthRequestDto request)
+        {
+            var userId = GetCurrentUserId();
+            if (string.IsNullOrWhiteSpace(request.Password))
+                throw new ValidationException(new[] { "Password is required" });
+
+            var ok = await _userService.VerifyPasswordAsync(userId, request.Password);
+            if (!ok)
+                throw new ValidationException(new[] { "Invalid password" });
+
+            var expiresInMinutes = _configuration.GetValue("TwoFactor:ReauthExpiresMinutes", 5);
+            var token = _tokenService.GenerateReauthToken(userId, purpose: "2fa_setup", expiresInMinutes: expiresInMinutes);
+
+            return HandleSuccess(new ReauthResponseDto
+            {
+                ReauthToken = token,
+                ExpiresAt = DateTime.UtcNow.AddMinutes(expiresInMinutes)
+            });
         }
 
         [HttpGet("me")]

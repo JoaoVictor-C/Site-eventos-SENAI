@@ -17,4 +17,15 @@ namespace EventosAPI.Application.DTOs
     {
         public string RefreshToken { get; set; } = string.Empty;
     }
+
+    public class ReauthRequestDto
+    {
+        public string Password { get; set; } = string.Empty;
+    }
+
+    public class ReauthResponseDto
+    {
+        public string ReauthToken { get; set; } = string.Empty;
+        public DateTime ExpiresAt { get; set; }
+    }
 }

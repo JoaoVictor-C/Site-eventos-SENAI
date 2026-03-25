@@ -113,6 +113,15 @@ namespace EventosAPI.Application.Services
             return GetByIdAsync(userId);
         }
 
+        public async Task<bool> VerifyPasswordAsync(Guid userId, string password)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+                throw new EventosAPI.Application.Exceptions.NotFoundException(nameof(User), userId);
+
+            return _passwordHashService.VerifyPassword(password, user.PasswordHash);
+        }
+
         private string GenerateJwtToken(User user)
         {
             var jwtKey = _configuration["Jwt:Key"] ?? 

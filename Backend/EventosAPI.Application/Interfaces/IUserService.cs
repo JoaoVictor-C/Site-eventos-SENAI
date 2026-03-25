@@ -12,6 +12,7 @@ namespace EventosAPI.Application.Interfaces
         Task DeleteAsync(Guid id);
         Task<TokenResponseDto> LoginAsync(LoginDto loginDto);
         Task<UserDto> GetCurrentUserAsync();
+        Task<bool> VerifyPasswordAsync(Guid userId, string password);
         Task ResetUserPasswordAsync(Guid userId);
         Task<User> GetByEmailAsync(string email);
         Task SetTwoFactorSecretAsync(Guid userId, string secret);

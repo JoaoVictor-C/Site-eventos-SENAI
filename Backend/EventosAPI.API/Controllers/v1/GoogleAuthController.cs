@@ -4,8 +4,10 @@ using Google.Authenticator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using EventosAPI.Domain.Interfaces.Repositories;
+using EventosAPI.Domain.Interfaces.Services;
 using NotFoundException = EventosAPI.Application.Exceptions.NotFoundException;
 using ValidationException = EventosAPI.Application.Exceptions.ValidationException;
+using AppUnauthorizedAccessException = EventosAPI.Application.Exceptions.UnauthorizedAccessException;
 
 namespace EventosAPI.API.Controllers.v1
 {
@@ -20,16 +22,20 @@ namespace EventosAPI.API.Controllers.v1
         private static readonly char[] Base32Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567".ToCharArray();
 
         private readonly IUserRepository _userRepository;
+        private readonly ITokenService _tokenService;
 
-        public GoogleAuthController(IUserRepository userRepository)
+        public GoogleAuthController(IUserRepository userRepository, ITokenService tokenService)
         {
             _userRepository = userRepository;
+            _tokenService = tokenService;
         }
 
         // GET: api/v1/auth/google/setup
         [HttpGet("setup")]
         public async Task<IActionResult> Setup2FA()
         {
+            EnsureRecentReauth(purpose: "2fa_setup");
+
             // Security: do not allow configuring 2FA by arbitrary email. Always use the authenticated user.
             var userId = GetCurrentUserId();
             var user = await _userRepository.GetByIdAsync(userId);
@@ -88,6 +94,22 @@ namespace EventosAPI.API.Controllers.v1
             }
 
             return new string(chars);
+        }
+
+        private void EnsureRecentReauth(string purpose)
+        {
+            if (!Request.Headers.TryGetValue("X-Reauth-Token", out var headerValues))
+                throw new AppUnauthorizedAccessException("Re-auth required");
+
+            var token = headerValues.ToString();
+            var principal = _tokenService.ValidateReauthToken(token, expectedPurpose: purpose);
+            if (principal == null)
+                throw new AppUnauthorizedAccessException("Re-auth required");
+
+            var currentUserId = GetCurrentUserId().ToString();
+            var tokenUserId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!string.Equals(currentUserId, tokenUserId, StringComparison.OrdinalIgnoreCase))
+                throw new AppUnauthorizedAccessException("Re-auth token does not match current user");
         }
     }
 }
