@@ -54,6 +54,7 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 - [ ] `Backend/EventosAPI.Infrastructure/Repositories/EventRoleRepository.cs`
 - [ ] `Backend/EventosAPI.Infrastructure/Repositories/EventUserRoleRepository.cs`
 - [ ] Decide storage model (one-row-per-flag vs bitmask) and make queries consistent.
+  - [x] Storage model: **one row per atomic permission flag**. Composite checks aggregate flags and evaluate bitmask in memory (see `EventRepository.HasEventRoleAsync`).
 
 - [x] `EventRolesController` responses and deletes are incorrect:
 - [x] Fixed `Backend/EventosAPI.API/Controllers/v1/EventRolesController.cs` to remove roles by `(eventId, userId, roleType)` and return target user roles.

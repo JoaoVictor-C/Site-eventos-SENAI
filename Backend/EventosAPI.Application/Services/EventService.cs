@@ -261,6 +261,10 @@ namespace EventosAPI.Application.Services
             var user = await _userRepository.GetByIdAsync(roleDto.UserId)
                 ?? throw new NotFoundException(nameof(User), roleDto.UserId);
 
+            // This service stores one row per atomic flag. Composite roles must be expanded by the caller.
+            if (!IsPowerOfTwo((int)roleDto.RoleType))
+                throw new ValidationException(new[] { "RoleType must be an atomic flag (one permission at a time)." });
+
             // Check if user already has this role
             if (await HasEventRoleAsync(roleDto.EventId, roleDto.UserId, roleDto.RoleType))
                 throw new BusinessRuleException($"User already has role {roleDto.RoleType} for this event");
@@ -317,6 +321,8 @@ namespace EventosAPI.Application.Services
         {
             return await _eventRepository.HasEventRoleAsync(eventId, userId, roleType);
         }
+
+        private static bool IsPowerOfTwo(int value) => value > 0 && (value & (value - 1)) == 0;
 
         public async Task<BatchDto> CreateBatchAsync(Guid eventId, CreateBatchDto createBatchDto)
         {
