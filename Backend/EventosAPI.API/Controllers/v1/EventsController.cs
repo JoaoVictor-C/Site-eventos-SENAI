@@ -34,8 +34,6 @@ namespace EventosAPI.API.Controllers.v1
         public async Task<IActionResult> GetById(Guid id)
         {
             var @event = await _eventService.GetByIdAsync(id);
-            if (@event == null)
-                return HandleError("Evento não encontrado", 404);
             return HandleSuccess(@event);
         }
 

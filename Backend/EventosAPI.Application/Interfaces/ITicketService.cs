@@ -1,5 +1,4 @@
 using EventosAPI.Application.DTOs;
-using EventosAPI.Domain.Entities;
 
 namespace EventosAPI.Application.Interfaces
 {
@@ -7,7 +6,7 @@ namespace EventosAPI.Application.Interfaces
     {
         Task<IEnumerable<TicketDto>> GetTicketsByUserAsync(Guid userId);
         Task<IEnumerable<TicketDto>> GetTicketsByEventAsync(Guid eventId);
-        Task<OrderDto?> GetOrderAsync(Guid orderId);
+        Task<OrderDto> GetOrderAsync(Guid orderId);
         
         Task<TicketReservationResponseDto> ReserveTicketsAsync(TicketReservationDto reservationDto, Guid userId);
         Task ValidateTicketPaymentAsync(TicketValidationDto validationDto, Guid validatorId);

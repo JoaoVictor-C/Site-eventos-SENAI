@@ -4,6 +4,8 @@ using Google.Authenticator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using EventosAPI.Domain.Interfaces.Repositories;
+using NotFoundException = EventosAPI.Application.Exceptions.NotFoundException;
+using ValidationException = EventosAPI.Application.Exceptions.ValidationException;
 
 namespace EventosAPI.API.Controllers.v1
 {
@@ -32,7 +34,7 @@ namespace EventosAPI.API.Controllers.v1
             var userId = GetCurrentUserId();
             var user = await _userRepository.GetByIdAsync(userId);
             if (user == null)
-                return HandleError("User not found", 404);
+                throw new NotFoundException("User", userId);
 
             // Use existing secret or generate a new one.
             var secret = user.TwoFactorSecret;
@@ -62,7 +64,7 @@ namespace EventosAPI.API.Controllers.v1
             var userId = GetCurrentUserId();
             var user = await _userRepository.GetByIdAsync(userId);
             if (user == null || string.IsNullOrEmpty(user.TwoFactorSecret))
-                return HandleError("2FA is not configured for this user", 400);
+                throw new ValidationException(new[] { "2FA is not configured for this user" });
 
             var tfa = new TwoFactorAuthenticator();
             var isValid = tfa.ValidateTwoFactorPIN(user.TwoFactorSecret, request.Code);

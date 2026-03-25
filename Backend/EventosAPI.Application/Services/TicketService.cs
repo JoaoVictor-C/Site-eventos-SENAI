@@ -49,9 +49,11 @@ namespace EventosAPI.Application.Services
             return _mapper.Map<IEnumerable<TicketDto>>(tickets);
         }
 
-        public async Task<OrderDto?> GetOrderAsync(Guid orderId)
+        public async Task<OrderDto> GetOrderAsync(Guid orderId)
         {
-            var order = await _orderRepository.GetByIdAsync(orderId);
+            var order = await _orderRepository.GetByIdAsync(orderId)
+                ?? throw new NotFoundException(nameof(Order), orderId);
+
             return _mapper.Map<OrderDto>(order);
         }
 

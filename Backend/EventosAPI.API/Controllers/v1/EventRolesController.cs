@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using EventosAPI.Application.DTOs;
 using EventosAPI.Application.Interfaces;
 using EventosAPI.Domain.Enums;
+using AppUnauthorizedAccessException = EventosAPI.Application.Exceptions.UnauthorizedAccessException;
 
 namespace EventosAPI.API.Controllers.v1
 {
@@ -14,9 +15,7 @@ namespace EventosAPI.API.Controllers.v1
         private readonly IEventService _eventService;
         private readonly IEventRoleService _eventRoleService;
 
-        public EventRolesController(
-            IEventService eventService,
-            IEventRoleService eventRoleService)
+        public EventRolesController(IEventService eventService, IEventRoleService eventRoleService)
         {
             _eventService = eventService;
             _eventRoleService = eventRoleService;
@@ -27,7 +26,7 @@ namespace EventosAPI.API.Controllers.v1
         {
             var currentUserId = GetCurrentUserId();
             if (!await _eventRoleService.HasEventPermissionAsync(eventId, currentUserId, EventRoleType.ManageRoles))
-                return HandleError("Forbidden", 403);
+                throw new AppUnauthorizedAccessException("Forbidden");
 
             var roles = await _eventRoleService.GetEventRolesAsync(eventId);
             return HandleSuccess(roles);
@@ -38,7 +37,7 @@ namespace EventosAPI.API.Controllers.v1
         {
             var currentUserId = GetCurrentUserId();
             if (!await _eventRoleService.HasEventPermissionAsync(eventId, currentUserId, EventRoleType.ManageRoles))
-                return HandleError("Forbidden", 403);
+                throw new AppUnauthorizedAccessException("Forbidden");
 
             await _eventRoleService.AssignEventRoleAsync(eventId, new AssignEventRoleDto
             {
@@ -56,7 +55,7 @@ namespace EventosAPI.API.Controllers.v1
         {
             var currentUserId = GetCurrentUserId();
             if (!await _eventRoleService.HasEventPermissionAsync(eventId, currentUserId, EventRoleType.ManageRoles))
-                return HandleError("Forbidden", 403);
+                throw new AppUnauthorizedAccessException("Forbidden");
 
             await _eventRoleService.RemoveEventRoleAsync(eventId, userId, roleType);
             return HandleSuccess<object>(null, "Role removed successfully");
@@ -82,7 +81,7 @@ namespace EventosAPI.API.Controllers.v1
         {
             var currentUserId = GetCurrentUserId();
             if (currentUserId != userId && !IsCurrentUserAdmin())
-                return HandleError("Forbidden", 403);
+                throw new AppUnauthorizedAccessException("Forbidden");
 
             var roles = await _eventRoleService.GetUserEventRolesForEventAsync(eventId, userId);
             return HandleSuccess(roles);
@@ -93,7 +92,7 @@ namespace EventosAPI.API.Controllers.v1
         {
             var currentUserId = GetCurrentUserId();
             if (currentUserId != userId && !IsCurrentUserAdmin())
-                return HandleError("Forbidden", 403);
+                throw new AppUnauthorizedAccessException("Forbidden");
 
             var events = await _eventService.GetEventsByUserRolesAsync(userId);
             return HandleSuccess(events);

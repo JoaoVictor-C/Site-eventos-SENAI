@@ -1,9 +1,8 @@
-using System.Threading.Tasks;
-using EventosAPI.API.Controllers;
-using EventosAPI.Application.DTOs;
+﻿using EventosAPI.Application.DTOs;
 using EventosAPI.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using AppUnauthorizedAccessException = EventosAPI.Application.Exceptions.UnauthorizedAccessException;
 
 namespace EventosAPI.API.Controllers.v1
 {
@@ -28,9 +27,11 @@ namespace EventosAPI.API.Controllers.v1
             if (!string.IsNullOrEmpty(eventId))
             {
                 var currentUserId = GetCurrentUserId();
-                if (!await _eventRoleService.HasEventPermissionAsync(Guid.Parse(eventId), currentUserId, EventosAPI.Domain.Enums.EventRoleType.ViewReports))
-                    return HandleError("Forbidden", 403);
+                if (!await _eventRoleService.HasEventPermissionAsync(Guid.Parse(eventId), currentUserId,
+                        EventosAPI.Domain.Enums.EventRoleType.ViewReports))
+                    throw new AppUnauthorizedAccessException("Forbidden");
             }
+
             var data = await _analyticsService.GetAnalyticsDataAsync(eventId);
             return HandleSuccess(data);
         }

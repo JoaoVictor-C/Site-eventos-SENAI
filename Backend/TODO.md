@@ -76,6 +76,7 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 - [ ] Or explicit result/return objects.
 - [ ] Today it’s mixed (manual `HandleError(...)` + exceptions).
 - [x] Standardized middleware error envelope to `ApiResponse<T>` (response shape now consistent across controller helpers + middleware).
+- [x] Reduced controller-level manual error returns (`HandleError`) in favor of throwing app exceptions and letting middleware format responses.
 
 ## Configuration Problems
 

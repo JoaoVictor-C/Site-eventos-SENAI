@@ -1,8 +1,10 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using EventosAPI.Application.DTOs;
 using EventosAPI.Application.Interfaces;
 using EventosAPI.Domain.Interfaces.Services;
+using NotFoundException = EventosAPI.Application.Exceptions.NotFoundException;
+using ValidationException = EventosAPI.Application.Exceptions.ValidationException;
 
 namespace EventosAPI.API.Controllers.v1
 {
@@ -41,7 +43,7 @@ namespace EventosAPI.API.Controllers.v1
         {
             var refreshToken = await _tokenService.GetRefreshTokenAsync(request.RefreshToken);
             if (refreshToken == null || !refreshToken.IsActive)
-                return HandleError("Invalid refresh token");
+                throw new ValidationException(new[] { "Invalid refresh token" });
 
             var user = refreshToken.User;
             var newAccessToken = _tokenService.GenerateAccessToken(user);
@@ -70,7 +72,7 @@ namespace EventosAPI.API.Controllers.v1
         {
             var result = await _tokenService.RevokeTokenAsync(request.RefreshToken);
             if (!result)
-                return HandleError("Token not found");
+                throw new NotFoundException("RefreshToken", request.RefreshToken);
 
             return HandleSuccess<object>(null, "Token revoked");
         }
@@ -81,8 +83,6 @@ namespace EventosAPI.API.Controllers.v1
         {
             var userId = GetCurrentUserId();
             var user = await _userService.GetByIdAsync(userId);
-            if (user == null)
-                return HandleError("Usuário não encontrado", 404);
             return HandleSuccess(user);
         }
     }

@@ -41,6 +41,8 @@ namespace EventosAPI.Application.Services
         public async Task<UserDto> GetByIdAsync(Guid id)
         {
             var user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
+                throw new EventosAPI.Application.Exceptions.NotFoundException(nameof(User), id);
             return _mapper.Map<UserDto>(user);
         }
 

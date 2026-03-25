@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using EventosAPI.Application.DTOs;
 using EventosAPI.Application.Interfaces;
-using System.Security.Claims;
+using ValidationException = EventosAPI.Application.Exceptions.ValidationException;
 
 namespace EventosAPI.API.Controllers.v1
 {
@@ -11,16 +11,13 @@ namespace EventosAPI.API.Controllers.v1
     public class TicketsController : ApiControllerBase
     {
         private readonly ITicketService _ticketService;
-        private readonly IUserService _userService;
         private readonly IEventService _eventService;
 
         public TicketsController(
-            ITicketService ticketService, 
-            IUserService userService,
+            ITicketService ticketService,
             IEventService eventService)
         {
             _ticketService = ticketService;
-            _userService = userService;
             _eventService = eventService;
         }
 
@@ -58,14 +55,13 @@ namespace EventosAPI.API.Controllers.v1
             var validatorId = GetCurrentUserId();
 
             if (validationDto.OrderId != Guid.Empty && validationDto.OrderId != orderId)
-                return HandleError("OrderId mismatch", 400);
+                throw new ValidationException(new[] { "OrderId mismatch" });
             validationDto.OrderId = orderId;
 
             var order = await _ticketService.GetOrderAsync(orderId);
-            if (order == null)
-                return HandleError("Order not found", 404);
             await ValidateEventAccess(order.EventId, _eventService, Domain.Enums.EventRoleType.ManageTickets);
             await _ticketService.ValidateTicketPaymentAsync(validationDto, validatorId);
+
             return HandleSuccess<object>(null, "Ticket payment validated successfully");
         }
 
@@ -75,10 +71,10 @@ namespace EventosAPI.API.Controllers.v1
         {
             var userId = GetCurrentUserId();
             var order = await _ticketService.GetOrderAsync(orderId);
-            if (order == null)
-                return HandleError("Order not found", 404);
-            if (order.UserId != userId && !await _eventService.HasEventRoleAsync(order.EventId, userId, Domain.Enums.EventRoleType.ManageTickets))
-                return HandleError("Forbidden", 403);
+
+            if (order.UserId != userId)
+                await ValidateEventAccess(order.EventId, _eventService, Domain.Enums.EventRoleType.ManageTickets);
+
             return HandleSuccess(order);
         }
 
@@ -103,13 +99,9 @@ namespace EventosAPI.API.Controllers.v1
         [Authorize]
         public async Task<IActionResult> GetOrdersByEvent(Guid eventId)
         {
-            // If admin return all orders for the event
-            if (IsCurrentUserAdmin())
-            {
-                var allOrders = await _ticketService.GetAllOrdersAsync();
-                return HandleSuccess(allOrders);
-            }
-            await ValidateEventAccess(eventId, _eventService, Domain.Enums.EventRoleType.ManageTickets);
+            if (!IsCurrentUserAdmin())
+                await ValidateEventAccess(eventId, _eventService, Domain.Enums.EventRoleType.ManageTickets);
+
             var orders = await _ticketService.GetOrdersByEventAsync(eventId);
             return HandleSuccess(orders);
         }
