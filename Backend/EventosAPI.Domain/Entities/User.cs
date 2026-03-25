@@ -39,7 +39,9 @@ namespace EventosAPI.Domain.Entities
 
         public bool HasRole(UserRole role)
         {
-            return (Role & role) == role;
+            // Global roles are single-value (not flags). If we need multiple global roles later,
+            // we should switch to multiple role claims and a dedicated persistence model.
+            return Role == role;
         }
 
         public bool IsAdmin()

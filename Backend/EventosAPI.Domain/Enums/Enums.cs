@@ -1,6 +1,5 @@
 namespace EventosAPI.Domain.Enums
 {
-    [Flags]
     public enum UserRole
     {
         User = 1,

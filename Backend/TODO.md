@@ -41,6 +41,7 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 - [ ] Decide one model:
 - [ ] Single role: remove `[Flags]` and treat as a single enum value.
 - [ ] Multi-role: emit multiple `ClaimTypes.Role` claims (one per role) and validate consistently.
+  - [x] Chosen model: **single global role** (removed `[Flags]` on `UserRole`, kept DB values stable, `IsInRole("Admin")` remains reliable).
 
 ## AuthZ / Permissions (Major Logic Bugs)
 
