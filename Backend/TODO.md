@@ -118,6 +118,7 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 
 - [ ] Fix mojibake (broken Portuguese strings) and ensure UTF-8:
 - [ ] `Backend/EventosAPI.Infrastructure/Data/DatabaseSeeder.cs`, controllers, README, entities, etc.
+- [x] Fixed mojibake in API responses (e.g. EventsController).
 
 ## Application Layer (Service Design / Duplication / Consistency)
 
@@ -152,11 +153,13 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 - [ ] `.vs/`, `**/bin/`, `**/obj/`, `Backend/EventosAPI.API/Logs/`.
 
 - [ ] Remove empty / placeholder files if truly unused:
-- [ ] `Backend/EventosAPI.Application/DTOs/TicketPurchaseRequestDto.cs` (0 bytes)
-- [ ] `Backend/EventosAPI.Infrastructure/Security/PasswordHasher.cs` (empty)
-- [ ] `Backend/EventosAPI.Domain/Interfaces/Services/IBatchService.cs` (empty)
-- [ ] `Backend/EventosAPI.Domain/Interfaces/Services/IEventRoleService.cs` (empty)
-- [ ] `Backend/EventosAPI.Application/Class1.cs` (template leftover)
+- [x] `Backend/EventosAPI.Application/DTOs/TicketPurchaseRequestDto.cs` (0 bytes)
+- [x] `Backend/EventosAPI.Infrastructure/Security/PasswordHasher.cs` (empty)
+- [x] `Backend/EventosAPI.Domain/Interfaces/Services/IBatchService.cs` (empty)
+- [x] `Backend/EventosAPI.Domain/Interfaces/Services/IEventRoleService.cs` (empty)
+- [x] `Backend/EventosAPI.Application/Class1.cs` (template leftover)
+- [x] `Backend/EventosAPI.Infrastructure/Class1.cs` (template leftover)
+- [x] `Backend/EventosAPI.Domain/Class1.cs` (template leftover)
 
 ## Optimized Execution Path (Suggested)
 

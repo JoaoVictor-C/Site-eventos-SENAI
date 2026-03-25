@@ -35,7 +35,7 @@ namespace EventosAPI.API.Controllers.v1
         {
             var @event = await _eventService.GetByIdAsync(id);
             if (@event == null)
-                return HandleError("Evento nÃ£o encontrado", 404);
+                return HandleError("Evento não encontrado", 404);
             return HandleSuccess(@event);
         }
 
@@ -100,7 +100,7 @@ namespace EventosAPI.API.Controllers.v1
         {
             await ValidateEventAccess(id, _eventService, Domain.Enums.EventRoleType.ManageEvent);
             await _eventService.DeleteAsync(id);
-            return HandleSuccess<object>(null, message: "Evento excluÃ­do com sucesso");
+            return HandleSuccess<object>(null, message: "Evento excluído com sucesso");
         }
 
         [HttpGet("{id}/available-tickets")]
