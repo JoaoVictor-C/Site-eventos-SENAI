@@ -76,6 +76,11 @@ namespace EventosAPI.Infrastructure.Repositories
             return @event.MaxParticipants - totalSold;
         }
 
+        public async Task<bool> IsOrganizerAsync(Guid eventId, Guid userId)
+        {
+            return await _dbSet.AnyAsync(e => e.Id == eventId && e.OrganizerId == userId);
+        }
+
         // Event Role Management
         public async Task<EventRole?> GetEventRoleAsync(Guid eventId, Guid userId, EventRoleType roleType)
         {

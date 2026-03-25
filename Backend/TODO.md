@@ -54,10 +54,8 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 - [ ] `Backend/EventosAPI.Infrastructure/Repositories/EventUserRoleRepository.cs`
 - [ ] Decide storage model (one-row-per-flag vs bitmask) and make queries consistent.
 
-- [ ] `EventRolesController` responses and deletes are incorrect:
-- [ ] `Backend/EventosAPI.API/Controllers/v1/EventRolesController.cs` ignores `roleType` in `RemoveRole(...)`.
-- [ ] After assignment it returns current user role, not target user role.
-- [ ] Normalize endpoints to operate on `(eventId, targetUserId, roleType)` and return target user roles.
+- [x] `EventRolesController` responses and deletes are incorrect:
+- [x] Fixed `Backend/EventosAPI.API/Controllers/v1/EventRolesController.cs` to remove roles by `(eventId, userId, roleType)` and return target user roles.
 
 ## API Contracts / Serialization (High Impact)
 

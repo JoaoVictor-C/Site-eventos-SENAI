@@ -1,11 +1,12 @@
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
+﻿using System.Security.Claims;
 using AutoMapper;
 using EventosAPI.Application.DTOs;
+using AppUnauthorizedAccessException = EventosAPI.Application.Exceptions.UnauthorizedAccessException;
 using EventosAPI.Application.Interfaces;
 using EventosAPI.Domain.Entities;
 using EventosAPI.Domain.Enums;
 using EventosAPI.Domain.Interfaces.Repositories;
+using Microsoft.AspNetCore.Http;
 
 namespace EventosAPI.Application.Services
 {
@@ -16,6 +17,7 @@ namespace EventosAPI.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
+
         private const string AdminMasterEmail = "admin@eventos.com"; // Change to your email
 
         public EventRoleService(
@@ -38,71 +40,105 @@ namespace EventosAPI.Application.Services
             return _mapper.Map<IEnumerable<EventRoleDto>>(roles);
         }
 
-        public async Task<EventRoleDto?> GetUserEventRoleAsync(Guid eventId)
+        public async Task<IEnumerable<EventRoleDto>> GetUserEventRolesForEventAsync(Guid eventId, Guid userId)
         {
-            var userId = Guid.Parse(_httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new UnauthorizedAccessException());
-            var role = await _eventRoleRepository.GetEventRoleAsync(eventId, userId, EventRoleType.Moderator);
-            return _mapper.Map<EventRoleDto>(role);
+            var roles = await _eventRoleRepository.GetUserEventRolesForEventAsync(eventId, userId);
+            return _mapper.Map<IEnumerable<EventRoleDto>>(roles);
+        }
+
+        public async Task<IEnumerable<EventRoleDto>> GetMyEventRolesAsync(Guid eventId)
+        {
+            var userId = GetCurrentUserId();
+            return await GetUserEventRolesForEventAsync(eventId, userId);
         }
 
         public async Task AssignEventRoleAsync(Guid eventId, AssignEventRoleDto dto)
         {
-            var currentUserId = Guid.Parse(_httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new UnauthorizedAccessException());
-            var currentUser = await _userRepository.GetByIdAsync(currentUserId);
+            await EnsureCanManageRolesAsync(eventId);
 
-            if (currentUser == null || (!currentUser.IsAdminMaster(AdminMasterEmail) && !await IsEventOrganizerAsync(eventId, currentUserId)))
-                throw new UnauthorizedAccessException("Você não tem permissão para gerenciar papéis neste evento");
+            foreach (var role in ExpandToAtomicRoles(dto.RoleType))
+            {
+                var existing = await _eventRoleRepository.GetEventRoleAsync(eventId, dto.UserId, role);
+                if (existing != null) continue;
 
-            var existingRole = await _eventRoleRepository.GetEventRoleAsync(eventId, dto.UserId, dto.RoleType);
-            if (existingRole != null)
-            {
-                existingRole.RoleType = dto.RoleType;
-                await _eventRoleRepository.UpdateAsync(existingRole);
-            }
-            else
-            {
-                var newRole = new EventRole
+                await _eventRoleRepository.CreateAsync(new EventRole
                 {
                     EventId = eventId,
                     UserId = dto.UserId,
-                    RoleType = dto.RoleType
-                };
-                await _eventRoleRepository.CreateAsync(newRole);
+                    RoleType = role
+                });
             }
         }
 
-        public async Task RemoveEventRoleAsync(Guid eventId, Guid userId)
+        public async Task RemoveEventRoleAsync(Guid eventId, Guid userId, EventRoleType roleType)
         {
-            var currentUserId = Guid.Parse(_httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new UnauthorizedAccessException());
-            var currentUser = await _userRepository.GetByIdAsync(currentUserId);
+            await EnsureCanManageRolesAsync(eventId);
 
-            if (currentUser == null || (!currentUser.IsAdminMaster(AdminMasterEmail) && !await IsEventOrganizerAsync(eventId, currentUserId)))
-                throw new UnauthorizedAccessException("Você não tem permissão para gerenciar papéis neste evento");
-
-            var role = await _eventRoleRepository.GetEventRoleAsync(eventId, userId, EventRoleType.Moderator);
-            if (role != null)
+            foreach (var role in ExpandToAtomicRoles(roleType))
             {
-                await _eventRoleRepository.DeleteAsync(role.Id);
+                var existing = await _eventRoleRepository.GetEventRoleAsync(eventId, userId, role);
+                if (existing != null)
+                    await _eventRoleRepository.DeleteAsync(existing.Id);
             }
         }
 
-        public async Task<bool> HasEventPermissionAsync(Guid eventId, Guid userId, EventRoleType minimumRole)
+        public async Task<bool> HasEventPermissionAsync(Guid eventId, Guid userId, EventRoleType requiredRole)
         {
             var user = await _userRepository.GetByIdAsync(userId);
             if (user == null) return false;
-            return user.HasEventPermission(eventId, minimumRole, AdminMasterEmail);
-        }
 
-        private async Task<bool> IsEventOrganizerAsync(Guid eventId, Guid userId)
-        {
-            var @event = await _eventRepository.GetByIdAsync(eventId);
-            return @event?.OrganizerId == userId;
+            if (user.IsAdminMaster(AdminMasterEmail)) return true;
+            if (await _eventRepository.IsOrganizerAsync(eventId, userId)) return true;
+
+            var roles = await _eventRoleRepository.GetUserEventRolesForEventAsync(eventId, userId);
+            var mask = roles.Aggregate(EventRoleType.None, (current, next) => current | next.RoleType);
+
+            return (mask & requiredRole) == requiredRole;
         }
 
         public async Task<IEnumerable<EventRoleDto>> GetUserEventRolesAsync(Guid userId)
         {
             var roles = await _eventRoleRepository.GetUserEventRolesAsync(userId);
             return _mapper.Map<IEnumerable<EventRoleDto>>(roles);
+        }
+
+        private Guid GetCurrentUserId()
+        {
+            var id = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrWhiteSpace(id) || !Guid.TryParse(id, out var userId))
+                throw new System.UnauthorizedAccessException("User is not authenticated");
+
+            return userId;
+        }
+
+        private async Task EnsureCanManageRolesAsync(Guid eventId)
+        {
+            var currentUserId = GetCurrentUserId();
+            var currentUser = await _userRepository.GetByIdAsync(currentUserId);
+
+            if (currentUser == null)
+                throw new AppUnauthorizedAccessException("Forbidden");
+
+            if (currentUser.IsAdminMaster(AdminMasterEmail)) return;
+            if (await _eventRepository.IsOrganizerAsync(eventId, currentUserId)) return;
+
+            throw new AppUnauthorizedAccessException("Forbidden");
+        }
+
+        private static IEnumerable<EventRoleType> ExpandToAtomicRoles(EventRoleType roleType)
+        {
+            if (roleType == EventRoleType.None)
+                yield break;
+
+            foreach (var value in Enum.GetValues<EventRoleType>())
+            {
+                var intValue = (int)value;
+                if (intValue == 0) continue;
+                if ((intValue & (intValue - 1)) != 0) continue; // not a power-of-two flag
+
+                if ((roleType & value) == value)
+                    yield return value;
+            }
         }
     }
 }

@@ -8,5 +8,6 @@ namespace EventosAPI.Domain.Interfaces.Repositories
         Task<EventRole?> GetEventRoleAsync(Guid eventId, Guid userId, EventRoleType roleType);
         Task<IEnumerable<EventRole>> GetEventRolesAsync(Guid eventId);
         Task<IEnumerable<EventRole>> GetUserEventRolesAsync(Guid userId);
+        Task<IEnumerable<EventRole>> GetUserEventRolesForEventAsync(Guid eventId, Guid userId);
     }
 }

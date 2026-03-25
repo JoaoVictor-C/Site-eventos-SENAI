@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using EventosAPI.Application.DTOs;
 using EventosAPI.Application.Interfaces;
@@ -22,12 +22,14 @@ namespace EventosAPI.API.Controllers.v1
             _eventRoleService = eventRoleService;
         }
 
-        [HttpGet("/api/v1/events/{eventId}/roles")]
+        [HttpGet]
         public async Task<IActionResult> GetEventRoles(Guid eventId)
         {
             var currentUserId = GetCurrentUserId();
+            if (!await _eventRoleService.HasEventPermissionAsync(eventId, currentUserId, EventRoleType.ManageRoles))
+                return HandleError("Forbidden", 403);
 
-            var roles = await _eventService.GetEventRolesAsync(eventId, currentUserId);
+            var roles = await _eventRoleService.GetEventRolesAsync(eventId);
             return HandleSuccess(roles);
         }
 
@@ -40,11 +42,12 @@ namespace EventosAPI.API.Controllers.v1
 
             await _eventRoleService.AssignEventRoleAsync(eventId, new AssignEventRoleDto
             {
+                EventId = eventId,
                 UserId = dto.UserId,
                 RoleType = dto.RoleType
             });
 
-            var result = await _eventRoleService.GetUserEventRoleAsync(eventId);
+            var result = await _eventRoleService.GetUserEventRolesForEventAsync(eventId, dto.UserId);
             return HandleSuccess(result, "Role assigned successfully", 201);
         }
 
@@ -55,16 +58,15 @@ namespace EventosAPI.API.Controllers.v1
             if (!await _eventRoleService.HasEventPermissionAsync(eventId, currentUserId, EventRoleType.ManageRoles))
                 return HandleError("Forbidden", 403);
 
-            await _eventRoleService.RemoveEventRoleAsync(eventId, userId);
+            await _eventRoleService.RemoveEventRoleAsync(eventId, userId, roleType);
             return HandleSuccess<object>(null, "Role removed successfully");
         }
 
         [HttpGet("mine")]
         public async Task<IActionResult> GetMyEventRoles(Guid eventId)
         {
-            var currentUserId = GetCurrentUserId();
-            var role = await _eventRoleService.GetUserEventRoleAsync(eventId);
-            return HandleSuccess(role);
+            var roles = await _eventRoleService.GetMyEventRolesAsync(eventId);
+            return HandleSuccess(roles);
         }
 
         [HttpGet("check/{roleType}")]
@@ -76,24 +78,23 @@ namespace EventosAPI.API.Controllers.v1
         }
 
         [HttpGet("{userId}/event-roles")]
-        [Authorize]
-        public async Task<IActionResult> GetUserEventRoles(Guid userId)
+        public async Task<IActionResult> GetUserEventRoles(Guid eventId, Guid userId)
         {
             var currentUserId = GetCurrentUserId();
             if (currentUserId != userId && !IsCurrentUserAdmin())
                 return HandleError("Forbidden", 403);
-            var roles = await _eventRoleService.GetUserEventRolesAsync(userId);
+
+            var roles = await _eventRoleService.GetUserEventRolesForEventAsync(eventId, userId);
             return HandleSuccess(roles);
         }
 
-
         [HttpGet("/api/v1/users/{userId}/manageable-events")]
-        [Authorize]
         public async Task<IActionResult> GetManageableEvents(Guid userId)
         {
             var currentUserId = GetCurrentUserId();
             if (currentUserId != userId && !IsCurrentUserAdmin())
                 return HandleError("Forbidden", 403);
+
             var events = await _eventService.GetEventsByUserRolesAsync(userId);
             return HandleSuccess(events);
         }

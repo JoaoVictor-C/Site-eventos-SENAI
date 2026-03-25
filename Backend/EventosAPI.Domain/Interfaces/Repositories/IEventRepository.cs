@@ -9,6 +9,7 @@ namespace EventosAPI.Domain.Interfaces.Repositories
         Task<IEnumerable<Event>> GetEventsByOrganizerAsync(Guid organizerId);
         Task<bool> HasAvailableTicketsAsync(Guid eventId);
         Task<int> GetAvailableTicketsCountAsync(Guid eventId);
+        Task<bool> IsOrganizerAsync(Guid eventId, Guid userId);
 
         // Event Role Management
         Task<EventRole?> GetEventRoleAsync(Guid eventId, Guid userId, EventRoleType roleType);

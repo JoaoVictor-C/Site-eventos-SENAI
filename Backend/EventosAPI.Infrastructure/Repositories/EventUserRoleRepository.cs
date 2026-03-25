@@ -37,5 +37,14 @@ namespace EventosAPI.Infrastructure.Repositories
                 .Where(r => r.UserId == userId)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<EventRole>> GetUserEventRolesForEventAsync(Guid eventId, Guid userId)
+        {
+            return await _context.EventRoles
+                .Include(r => r.User)
+                .Include(r => r.Event)
+                .Where(r => r.EventId == eventId && r.UserId == userId)
+                .ToListAsync();
+        }
     }
 }
