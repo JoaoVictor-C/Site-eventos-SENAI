@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using EventosAPI.Application.Interfaces;
 using EventosAPI.Domain.Enums;
+using AppUnauthorizedAccessException = EventosAPI.Application.Exceptions.UnauthorizedAccessException;
 
 namespace EventosAPI.API.Controllers
 {
@@ -83,7 +84,7 @@ namespace EventosAPI.API.Controllers
                 return;
             var userId = GetCurrentUserId();
             if (!await eventService.HasEventRoleAsync(eventId, userId, requiredRole))
-                throw new UnauthorizedAccessException($"User does not have required role: {requiredRole}");
+                throw new AppUnauthorizedAccessException($"Forbidden: missing required role {requiredRole} for this event");
         }
     }
 

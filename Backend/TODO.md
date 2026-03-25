@@ -44,9 +44,8 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 
 ## AuthZ / Permissions (Major Logic Bugs)
 
-- [ ] Organizer can be blocked from managing their own event:
-- [ ] `Backend/EventosAPI.API/Controllers/v1/EventsController.cs` checks only `HasEventRoleAsync(...)`.
-- [ ] Use `ValidateEventAccess(...)` (organizer bypass) from `Backend/EventosAPI.API/Controllers/ApiControllerBase.cs`, or explicitly allow organizer.
+- [x] Organizer can be blocked from managing their own event:
+- [x] Updated `Backend/EventosAPI.API/Controllers/v1/EventsController.cs` to use `ValidateEventAccess(...)` (organizer bypass) consistently.
 
 - [ ] Event role checks are wrong if `EventRoleType` is treated as flags:
 - [ ] Equality checks like `er.RoleType == roleType` exist in:
@@ -165,7 +164,7 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 
 1. [x] Lock down 2FA endpoints (`GoogleAuthController`) and remove email-driven setup flow.
 2. [ ] Remove secrets from tracked config and move to env vars / user-secrets (Docker updated; docs still pending).
-3. [ ] Fix organizer/admin permission checks in `EventsController` using `ValidateEventAccess(...)`.
+3. [x] Fix organizer/admin permission checks in `EventsController` using `ValidateEventAccess(...)`.
 4. [ ] Decide + implement a consistent event-role model (storage + queries + controller behaviors).
 5. [ ] Break DTO cycles, remove `ReferenceHandler.Preserve`, and stabilize response contracts.
 6. [ ] Add transactions around reserve/purchase flows, fix route/body mismatch, and harden consistency.

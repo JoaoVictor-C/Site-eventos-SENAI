@@ -4,6 +4,7 @@ using ApplicationException = EventosAPI.Application.Exceptions.ApplicationExcept
 using ValidationException = EventosAPI.Application.Exceptions.ValidationException;
 using NotFoundException = EventosAPI.Application.Exceptions.NotFoundException;
 using BusinessRuleException = EventosAPI.Application.Exceptions.BusinessRuleException;
+using AppUnauthorizedAccessException = EventosAPI.Application.Exceptions.UnauthorizedAccessException;
 
 namespace EventosAPI.API.Middleware
 {
@@ -68,6 +69,15 @@ namespace EventosAPI.API.Middleware
                     {
                         success = false,
                         message = "Unauthorized access"
+                    };
+                    break;
+
+                case AppUnauthorizedAccessException appUnauthorizedEx:
+                    response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    errorResponse = new
+                    {
+                        success = false,
+                        message = appUnauthorizedEx.Message
                     };
                     break;
 

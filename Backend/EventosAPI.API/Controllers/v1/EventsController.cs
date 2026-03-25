@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using EventosAPI.Application.DTOs;
 using EventosAPI.Application.Interfaces;
@@ -35,7 +35,7 @@ namespace EventosAPI.API.Controllers.v1
         {
             var @event = await _eventService.GetByIdAsync(id);
             if (@event == null)
-                return HandleError("Evento não encontrado", 404);
+                return HandleError("Evento nÃ£o encontrado", 404);
             return HandleSuccess(@event);
         }
 
@@ -61,9 +61,7 @@ namespace EventosAPI.API.Controllers.v1
         [Authorize]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateEventDto updateEventDto)
         {
-            var currentUserId = GetCurrentUserId();
-            if (!await _eventService.HasEventRoleAsync(id, currentUserId, EventosAPI.Domain.Enums.EventRoleType.ManageEvent))
-                return HandleError("Forbidden", 403);
+            await ValidateEventAccess(id, _eventService, Domain.Enums.EventRoleType.ManageEvent);
             await _eventService.UpdateAsync(id, updateEventDto);
             return HandleSuccess<object>(null, "Evento atualizado com sucesso");
         }
@@ -72,9 +70,7 @@ namespace EventosAPI.API.Controllers.v1
         [Authorize]
         public async Task<IActionResult> CreateBatch(Guid id, [FromBody] CreateBatchDto createBatchDto)
         {
-            var currentUserId = GetCurrentUserId();
-            if (!await _eventService.HasEventRoleAsync(id, currentUserId, EventosAPI.Domain.Enums.EventRoleType.ManageBatches))
-                return HandleError("Forbidden", 403);
+            await ValidateEventAccess(id, _eventService, Domain.Enums.EventRoleType.ManageBatches);
             createBatchDto.EventId = id;
             var batch = await _eventService.CreateBatchAsync(id, createBatchDto);
             return HandleSuccess(batch, "Lote criado com sucesso");
@@ -84,9 +80,7 @@ namespace EventosAPI.API.Controllers.v1
         [Authorize]
         public async Task<IActionResult> UpdateBatch(Guid eventId, Guid batchId, [FromBody] UpdateBatchDto updateBatchDto)
         {
-            var currentUserId = GetCurrentUserId();
-            if (!await _eventService.HasEventRoleAsync(eventId, currentUserId, EventosAPI.Domain.Enums.EventRoleType.ManageBatches))
-                return HandleError("Forbidden", 403);
+            await ValidateEventAccess(eventId, _eventService, Domain.Enums.EventRoleType.ManageBatches);
             var batch = await _eventService.UpdateBatchAsync(eventId, batchId, updateBatchDto);
             return HandleSuccess(batch, "Lote atualizado com sucesso");
         }
@@ -95,9 +89,7 @@ namespace EventosAPI.API.Controllers.v1
         [Authorize]
         public async Task<IActionResult> DeleteBatch(Guid eventId, Guid batchId)
         {
-            var currentUserId = GetCurrentUserId();
-            if (!await _eventService.HasEventRoleAsync(eventId, currentUserId, EventosAPI.Domain.Enums.EventRoleType.ManageBatches))
-                return HandleError("Forbidden", 403);
+            await ValidateEventAccess(eventId, _eventService, Domain.Enums.EventRoleType.ManageBatches);
             await _eventService.DeleteBatchAsync(eventId, batchId);
             return HandleSuccess<object>(null, "Lote removido com sucesso");
         }
@@ -106,11 +98,9 @@ namespace EventosAPI.API.Controllers.v1
         [Authorize]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var currentUserId = GetCurrentUserId();
-            if (!await _eventService.HasEventRoleAsync(id, currentUserId, EventosAPI.Domain.Enums.EventRoleType.ManageEvent))
-                return HandleError("Forbidden", 403);
+            await ValidateEventAccess(id, _eventService, Domain.Enums.EventRoleType.ManageEvent);
             await _eventService.DeleteAsync(id);
-            return HandleSuccess<object>(null, message: "Evento excluído com sucesso");
+            return HandleSuccess<object>(null, message: "Evento excluÃ­do com sucesso");
         }
 
         [HttpGet("{id}/available-tickets")]
