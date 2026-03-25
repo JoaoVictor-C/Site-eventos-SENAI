@@ -1,4 +1,4 @@
-# Backend TODO (POI)
+﻿# Backend TODO (POI)
 
 This file tracks **points of improvement (POI)** for the backend (`Backend/`), and the **optimized execution path** to address them.
 
@@ -27,7 +27,7 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 - [x] Remove hard-coded secrets from source control:
 - [x] Removed DB password and JWT key from `Backend/EventosAPI.API/appsettings.json` and `Backend/EventosAPI.API/appsettings.Development.json`.
 - [x] Updated `docker-compose.yml` to use env vars (`JWT_KEY`, `MYSQL_ROOT_PASSWORD`) instead of hard-coded secrets.
-- [ ] Add/update docs (README) for `.env` / user-secrets setup.
+- [x] Add/update docs (README) for `.env` / user-secrets setup.
 
 - [x] Fix 2FA endpoints account-takeover risk:
 - [x] `Backend/EventosAPI.API/Controllers/v1/GoogleAuthController.cs`:
@@ -123,6 +123,7 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 - [ ] Fix mojibake (broken Portuguese strings) and ensure UTF-8:
 - [ ] `Backend/EventosAPI.Infrastructure/Data/DatabaseSeeder.cs`, controllers, README, entities, etc.
 - [x] Fixed mojibake in API responses (e.g. EventsController).
+- [x] Standardized Markdown docs to UTF-8 with BOM (fixes mojibake in Windows PowerShell `Get-Content`).
 
 ## Application Layer (Service Design / Duplication / Consistency)
 
@@ -174,5 +175,5 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 5. [x] Break DTO cycles, remove `ReferenceHandler.Preserve`, and stabilize response contracts.
 6. [x] Add transactions around reserve/purchase flows, fix route/body mismatch, and harden consistency.
 7. [x] Fix config mismatches (rate limiting, JWT expiry, CORS).
-8. [ ] Finish encoding/mojibake cleanup (repo hygiene + dead files already completed).
+8. [x] Finish encoding/mojibake cleanup (repo hygiene + dead files already completed).
 9. [x] Dependency upgrades (AutoMapper vulnerability, other updates) and rebuild.

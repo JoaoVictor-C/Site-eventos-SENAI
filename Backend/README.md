@@ -1,4 +1,4 @@
-# Eventos API
+﻿# Eventos API
 
 API RESTful para gerenciamento de eventos e ingressos, desenvolvida com ASP.NET Core 8.0.
 
