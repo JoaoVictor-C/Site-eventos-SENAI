@@ -1,0 +1,23 @@
+# .NET / Visual Studio
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+*.cache
+*.log
+
+# Rider / JetBrains
+.idea/
+
+# Node / frontend (safe defaults)
+**/node_modules/
+
+# Local environment files (keep .env.example tracked)
+.env
+.env.*
+!.env.example
+
+# App runtime output
+Backend/EventosAPI.API/Logs/
+
