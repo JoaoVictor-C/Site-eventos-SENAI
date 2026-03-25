@@ -100,11 +100,13 @@ This file tracks **points of improvement (POI)** for the backend (`Backend/`), a
 - [ ] `BaseRepository.UpdateAsync` may not update detached entities:
 - [ ] `Backend/EventosAPI.Infrastructure/Repositories/BaseRepository.cs` uses `Attach(entity)` but doesn’t mark modified.
 - [ ] Decide expected update style (tracked-only vs detached-friendly) and implement clearly.
+  - [x] Implemented detached update behavior by marking attached entity as `Modified`.
 
 - [ ] `UserRepository.GetByEmailAsync` throws but app expects null sometimes:
 - [ ] `Backend/EventosAPI.Infrastructure/Repositories/UserRepository.cs` throws `KeyNotFoundException`.
 - [ ] `Backend/EventosAPI.Application/Services/UserService.cs` checks for `user == null` in `LoginAsync(...)`.
 - [ ] Either return `User?` or throw an app exception that middleware maps cleanly.
+  - [x] Changed `IUserRepository.GetByEmailAsync` to return `User?` and updated call sites; `UserService.GetByEmailAsync` now throws `NotFoundException` for its `Task<User>` contract.
 
 - [ ] Define behavior for `MaxParticipants == 0`:
 - [ ] `Backend/EventosAPI.Infrastructure/Repositories/EventRepository.cs` treats it as hard limit (0 => no tickets).

@@ -42,8 +42,10 @@ namespace EventosAPI.Infrastructure.Repositories
                     .FirstOrDefault(e => e.Entity.Id == entity.Id)?.Entity;
                 if (trackedEntity == null)
                 {
-                    // Attach only if not already tracked
+                    // Attach and mark as modified if not already tracked.
+                    // This makes detached updates work, but keep in mind it updates all scalar properties.
                     _dbSet.Attach(entity);
+                    _context.Entry(entity).State = EntityState.Modified;
                 }
                 // Let EF Core track changes naturally (do not force Modified for aggregate roots)
                 await _context.SaveChangesAsync();

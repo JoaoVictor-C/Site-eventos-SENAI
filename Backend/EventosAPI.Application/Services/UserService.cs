@@ -55,7 +55,7 @@ namespace EventosAPI.Application.Services
         public async Task<UserDto> CreateAsync(CreateUserDto createUserDto)
         {
             if (await _userRepository.EmailExistsAsync(createUserDto.Email))
-                throw new Exception("Email já está em uso");
+                throw new EventosAPI.Application.Exceptions.ValidationException(new[] { "Email já está em uso" });
 
             var user = _mapper.Map<User>(createUserDto);
             user.PasswordHash = _passwordHashService.HashPassword(createUserDto.Password);
@@ -68,7 +68,7 @@ namespace EventosAPI.Application.Services
         {
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
-                throw new Exception("Usuário não encontrado");
+                throw new EventosAPI.Application.Exceptions.NotFoundException(nameof(User), id);
 
             _mapper.Map(updateUserDto, user);
             await _userRepository.UpdateAsync(user);
@@ -86,11 +86,11 @@ namespace EventosAPI.Application.Services
             {
                 // Still verify a password to maintain constant time
                 _passwordHashService.VerifyPassword(loginDto.Password, _passwordHashService.HashPassword("dummy"));
-                throw new Exception("Email ou senha inválidos");
+                throw new EventosAPI.Application.Exceptions.ValidationException(new[] { "Email ou senha inválidos" });
             }
 
             if (!_passwordHashService.VerifyPassword(loginDto.Password, user.PasswordHash))
-                throw new Exception("Email ou senha inválidos");
+                throw new EventosAPI.Application.Exceptions.ValidationException(new[] { "Email ou senha inválidos" });
 
             var accessToken = _tokenService.GenerateAccessToken(user);
             var refreshToken = await _tokenService.CreateRefreshTokenAsync(user);
@@ -151,14 +151,17 @@ namespace EventosAPI.Application.Services
 
         public async Task<User> GetByEmailAsync(string email)
         {
-            return await _userRepository.GetByEmailAsync(email);
+            var user = await _userRepository.GetByEmailAsync(email);
+            if (user == null)
+                throw new EventosAPI.Application.Exceptions.NotFoundException(nameof(User), email);
+            return user;
         }
 
         public async Task SetTwoFactorSecretAsync(Guid userId, string secret)
         {
             var user = await _userRepository.GetByIdAsync(userId);
             if (user == null)
-                throw new Exception("Usuário não encontrado");
+                throw new EventosAPI.Application.Exceptions.NotFoundException(nameof(User), userId);
             user.TwoFactorSecret = secret;
             await _userRepository.UpdateAsync(user);
         }

@@ -11,12 +11,9 @@ namespace EventosAPI.Infrastructure.Repositories
         {
         }
 
-        public async Task<User> GetByEmailAsync(string email)
+        public async Task<User?> GetByEmailAsync(string email)
         {
-            var user = await _dbSet.FirstOrDefaultAsync(u => u.Email == email);
-            if (user == null)
-                throw new KeyNotFoundException($"User with email {email} not found");
-            return user;
+            return await _dbSet.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<bool> EmailExistsAsync(string email)
